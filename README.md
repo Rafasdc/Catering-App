@@ -2,7 +2,7 @@
 
 The CodeCatz project is created with the django web framework
 
-#To start
+# To start
 
 You must create your own super user, and populate your own database. Always remember to migrate models. 
 
