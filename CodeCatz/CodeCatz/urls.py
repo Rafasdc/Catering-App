@@ -23,8 +23,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^catering/', include('catering.urls')),
-    url(r'^account/', include('account.urls')),
     url(r'^$', RedirectView.as_view(url='/catering/', permanent=True)),
+    url(r'^scheduler/', include('scheduler.urls')),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
