@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<link href="{% static 'css/base.css' %}" rel="stylesheet" type = "text/css">
+</head>
+
+
+<body>
+	
+	<div id="header">
+		<span class="logo">Cats Catering</span>
+	
+
+		<div class="topnav" id="myTopnav">
+			<a href="{% url 'home'%}">Home</a>
+			<a href="#EventSchedule">Event Schedule</a>
+			<a href="#contact">Contact</a>
+			{% if user.is_authenticated %}
+				<a href = "#AccountSettings">Account</a>
+			{% else %}
+				<a href="{% url 'login' %}">Login</a>
+			{% endif %}
+			<a href="javascript:void(0);" class="icon" onclick="navOnOff()">&#9776;</a>
+		</div>
+
+	</div>
+	<script src="{% static 'js/base.js' %}"></script>
+	
+
+	<div id="content">
+		{% block content %}
+		{% endblock %}
+	</div>
+
+</body>
+</html>
