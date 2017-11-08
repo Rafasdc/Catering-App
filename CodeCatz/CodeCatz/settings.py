@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catering.apps.CateringConfig',
     'scheduler.apps.SchedulerConfig',
+
 ]
 
 MIDDLEWARE = [
