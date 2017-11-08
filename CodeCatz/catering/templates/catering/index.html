@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title%}
+Cats Catering
+{% endblock %}
+
+{% block content %}
+<h1>Cats Catering Home</h1>
+
+<p>Welcome to <em>Cats Catering</em>, where we will be serving your needs for all catering events!</p>
+
+{% if user.is_authenticated %}
+<p>What would you like to do, {{ user.get_username }}?</p>
+{% else %}
+<p>Please <a href="{% url 'login' %}">login.</a></p>
+{% endif %}
+
+{% endblock %}
