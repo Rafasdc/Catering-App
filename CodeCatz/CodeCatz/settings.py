@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'catering.apps.CateringConfig',
     'scheduler.apps.SchedulerConfig',
     'employee.apps.EmployeeConfig',
+    'account',
 ]
 
 MIDDLEWARE = [
