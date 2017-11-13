@@ -5,31 +5,35 @@
 
 <head>
 	<title>{% block title %}{% endblock %}</title>
-	<link href="{% static 'css/base.css' %}" rel="stylesheet">
+	<link href="{% static 'css/base.css' %}?{% cache_bust %}" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
 </head>
 
 
 <body>
 	
-	<div id="header">
-		<span class="logo">Cats Catering</span>
-	
-
-		<div class="topnav" id="myTopnav">
-			<a href="{% url 'home'%}">Home</a>
-			<a href="#EventSchedule">Event Schedule</a>
-			<a href="#contact">Contact</a>
-			{% if user.is_authenticated %}
-				<a href = "#AccountSettings">Account</a>
-				<a href = "{% url 'logout'%}?next={{request.path}}">Logout</a>
-			{% else %}
-				<a href="{% url 'login' %}?next={{request.path}}">Login</a>
-			{% endif %}
-			<a href="javascript:void(0);" class="icon" onclick="navOnOff()">&#9776;</a>
+	<header class="header">
+		<div class="header-limiter">
+			<span class="logo">Cats Catering</span>
+			<nav id='nav'>
+				<a href="{% url 'home'%}">Home</a>
+				<a href="/event/">Event Schedule</a>
+				<a href="/contact/">Contact</a>
+				<a href="javascript:void(0);" class="icon" onclick="navOnOff()">&#9776;</a>
+			</nav>
+			<ul>
+				{% if user.is_authenticated %}
+					<li><a href = "/account/">Account</a></li>
+					<li><a href = "{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+				{% else %}
+					<li><a href="{% url 'login' %}?next={{request.path}}">Login</a></li>
+					<li><a href="/account/register/">Sign Up</a></li>
+				{% endif %}
+			</ul>
 		</div>
-
-	</div>
-	<script src="{% static 'js/base.js' %}"></script>
+			
+	</header>
+	<script src="{% static 'js/base.js' %}?{% cache_bust %}"></script>
 	
 
 	<div id="content">
