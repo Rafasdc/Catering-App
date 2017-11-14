@@ -1,20 +1,31 @@
 function navOnOff() {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "topnav") {
+    var x = document.getElementById("nav");
+    if (x.className === "nav") {
         x.className += " responsive";
     } else {
-        x.className = "topnav";
+        x.className = "nav";
     }
 }
 
 (function () {
-    var nav = document.getElementById('myTopnav'),
+    var nav = document.getElementById('nav'),
     anchor = nav.getElementsByTagName('a'),
-    current = window.location;
+    current = window.location.pathname;
+    currentAfter = current.split('/');
     for (var i = 0; i < anchor.length; i++) {
-        if(anchor[i].href == current) {
+        anchorSplit = anchor[i].pathname.split('/');
+        if(anchorSplit[1] == currentAfter[1]){
             anchor[i].className = "active";
+            break;
         }
     }
+
+
     
 })();
+
+function adjust_textarea(h) {
+    h.style.height = "20px";
+    h.style.height = (h.scrollHeight)+"px";
+}
+

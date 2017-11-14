@@ -1,0 +1,96 @@
+.form-view{
+    max-width:400px;
+    margin:50px auto;
+    background:#fff;
+    border-radius:2px;
+    padding:20px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+.form-view h1{
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0px 0px 20px 0px;
+    color: #5C5C5C;
+    font-size:x-large;
+}
+.form-view ul{
+    list-style:none;
+    padding:0;
+    margin:0;   
+}
+.form-view li{
+    display: block;
+    padding: 9px;
+    border:1px solid #DDDDDD;
+    margin-bottom: 30px;
+    border-radius: 3px;
+}
+.form-view li:last-child{
+    border:none;
+    margin-bottom: 0px;
+    text-align: center;
+}
+.form-view li > label{
+    display: block;
+    float: left;
+    margin-top: -19px;
+    background: #FFFFFF;
+    height: 14px;
+    padding: 2px 5px 2px 5px;
+    color: #B9B9B9;
+    font-size: 14px;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.form-view input[type="text"],
+.form-view input[type="date"],
+.form-view input[type="datetime"],
+.form-view input[type="email"],
+.form-view input[type="number"],
+.form-view input[type="search"],
+.form-view input[type="time"],
+.form-view input[type="url"],
+.form-view input[type="password"],
+.form-view textarea,
+.form-view select 
+{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    display: block;
+    outline: none;
+    border: none;
+    height: 25px;
+    line-height: 25px;
+    font-size: 16px;
+    padding: 0;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+.form-view input[type="text"]:focus,
+.form-view input[type="date"]:focus,
+.form-view input[type="datetime"]:focus,
+.form-view input[type="email"]:focus,
+.form-view input[type="number"]:focus,
+.form-view input[type="search"]:focus,
+.form-view input[type="time"]:focus,
+.form-view input[type="url"]:focus,
+.form-view input[type="password"]:focus,
+.form-view textarea:focus,
+.form-view select:focus 
+{
+}
+.form-view li > span{
+    background: #F3F3F3;
+    display: block;
+    padding: 3px;
+    margin: 0 -9px -9px -9px;
+    text-align: center;
+    color: #C0C0C0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+.form-view textarea{
+    resize:none;
+}
