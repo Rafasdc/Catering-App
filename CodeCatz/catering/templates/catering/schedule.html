@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Log-in{% endblock %}
+
+{% block content %}
+    <h1>Detail page</h1>
+    <p>Enter your schedule details here</p>
+    <form action="/catering/database" method="get">
+        <label for="Customerid">Enter Your ID</label><input type="text" name="cid">
+        <label for="eventid">Event ID </label><input type="text" name="eid">
+        <label for="guests">Enter the number of guests</label><input type="number" name="g">
+        <label for="location">Enter location</label><input type="text" name="location">
+        <label for="time">Start Time</label><input type="Time" name="strtime">
+        <label for="eventdate">Event Date</label><input type="Date" name="evedate">
+        <p><input type="submit" value="Log-in"></p>
+    </form>
+{% endblock %}
