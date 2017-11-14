@@ -1,5 +1,9 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block title %} Login {% endblock %}
+{% block extraStatic %}
+<link href="{% static 'css/forms.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
 {% block content %}
 {% if not user.is_authenticated%}
   {% if form.errors %}
@@ -11,23 +15,24 @@
   {% endif %}
   <h1>Log-in</h1>
   <p>Please, use the following form to log-in:</p>
-  <form method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-
-  <div>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-  </div>
-  <div>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-  </div>
-
-  <div>
-    <input type="submit" value="login"/>
-    <input type="hidden" name="next" value="{{ next }}" />
-  </div>
-  </form>
+  <form method="post" action="{% url 'login' %}" class="form-view">
+      {% csrf_token %}
+      <ul>
+        {% for field in form %}
+          <li>
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+              <span>{{ field.help_text|safe }}</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+        <li><div>
+            <input type="submit" value="Login"/>
+            <input type="hidden" name="next" value="{{ next }}" />
+          </div></li>
+      </ul>
+    </form>
 
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'password_reset' %}">Lost password?</a></p>

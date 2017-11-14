@@ -6,7 +6,9 @@
 <head>
 	<title>{% block title %}{% endblock %}</title>
 	<link href="{% static 'css/base.css' %}?{% cache_bust %}" rel="stylesheet">
+	<link href="{% static 'css/forms.css' %}?{% cache_bust %}" rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
+	{% block extraStatic %}{% endblock %}
 </head>
 
 
@@ -27,7 +29,7 @@
 					<li><a href = "{% url 'logout'%}?next={{request.path}}">Logout</a></li>
 				{% else %}
 					<li><a href="{% url 'login' %}?next={{request.path}}">Login</a></li>
-					<li><a href="/account/register/">Sign Up</a></li>
+					<li><a href="{% url 'register' %}">Sign Up</a></li>
 				{% endif %}
 			</ul>
 		</div>

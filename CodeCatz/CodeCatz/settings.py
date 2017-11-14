@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catering.apps.CateringConfig',
+    'register.apps.RegisterConfig',
 ]
 
 MIDDLEWARE = [
