@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'catering.apps.CateringConfig',
     'scheduler.apps.SchedulerConfig',
     'employee.apps.EmployeeConfig',
-    'account',
+    'register.apps.RegisterConfig',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins': ['commons.templatetags.cache_bust'],
         },
     },
 ]

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Register {% endblock %}
+{% block extraStatic %}
+<link href="{% static 'css/forms.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+  <h1>Sign up</h1>
+  <form method="post" class="form-view">
+      {% csrf_token %}
+      <ul>
+        {% for field in form %}
+          <li>
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+              <span>{{ field.help_text|safe }}</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+        <li><div>
+            <input type="submit" value="Register"/>
+            <input type="hidden" name="next" value="{{ next }}" />
+          </div></li>
+      </ul>
+    </form>
+{% endblock %}

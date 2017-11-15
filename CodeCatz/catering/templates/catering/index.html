@@ -10,7 +10,7 @@ Cats Catering
 <p>Welcome to <em>Cats Catering</em>, where we will be serving your needs for all catering events!</p>
 
 {% if user.is_authenticated %}
-<p>What would you like to do, {{ user.get_username }}?</p>
+<p>Hello, {{ user.get_username }}?</p>
 {% else %}
 <p>Please <a href="{% url 'login' %}">login.</a></p>
 {% endif %}
