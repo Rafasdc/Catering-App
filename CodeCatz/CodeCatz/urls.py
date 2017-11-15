@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^catering/', include('catering.urls')),
     url(r'^$', RedirectView.as_view(url='/catering/', permanent=True)),
     url(r'^scheduler/', include('scheduler.urls')),
+    url(r'^account/', include('account.urls')),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
