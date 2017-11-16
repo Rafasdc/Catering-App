@@ -9,7 +9,7 @@ class Schedule(models.Model):
 		return self.name
 
 
-class Occurrance(models.Model):
+class Occurrence(models.Model):
 	"""
 	model representing the state of an event
 	"""
@@ -36,7 +36,7 @@ class Occurrance(models.Model):
 		return self.name
 
 	class Meta:
-		ordering = ["occurrance__date"]
+		ordering = ["occurrence__date"]
 
 
 class ScheduleManager(models.Model):
