@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'scheduler.apps.SchedulerConfig',
     'employee.apps.EmployeeConfig',
     'register.apps.RegisterConfig',
+    'events.apps.EventsConfig',
 ]
 
 MIDDLEWARE = [

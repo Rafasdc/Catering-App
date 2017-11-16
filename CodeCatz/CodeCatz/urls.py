@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^register/', include('register.urls')),
     url(r'^scheduler/', include('scheduler.urls')),
+    url(r'^events/', include('events.urls')),
     url(r'^$', RedirectView.as_view(url='/catering/', permanent=True)),   
     ]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
