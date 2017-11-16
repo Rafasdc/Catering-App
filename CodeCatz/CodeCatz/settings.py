@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catering.apps.CateringConfig',
     'register.apps.RegisterConfig',
-    'employee.apps.EmployeeConfig',
 ]
 
 MIDDLEWARE = [
