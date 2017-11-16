@@ -5,9 +5,12 @@ class Event(models.Model):
 
 	eventID = models.AutoField(primary_key=True)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	numGuests = models.IntegerField()
-	startTime = models.DateTimeField()
+	numGuests = models.IntegerField('Number of Guests')
+	startTime = models.DateTimeField(null=True, blank=True)
 	# menu = models.ManyToManyField()
 
 	def __str__(self):
-		return self.user
+		return "%s, %s guests" % (self.user, self.numGuests)
+
+	def get_absolute_url(self):
+		return reverse('event-detail', args=[str(self.eventID)])
