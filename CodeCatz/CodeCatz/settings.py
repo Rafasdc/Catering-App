@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'catering.apps.CateringConfig',
     #'scheduler.apps.SchedulerConfig',
     #'employee.apps.EmployeeConfig',
+    'management.apps.ManagementConfig',
     'register.apps.RegisterConfig',
     'events.apps.EventsConfig',
 ]
