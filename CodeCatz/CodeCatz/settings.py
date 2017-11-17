@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catering.apps.CateringConfig',
-    #'scheduler.apps.SchedulerConfig',
+    'scheduler.apps.SchedulerConfig',
     #'employee.apps.EmployeeConfig',
     'management.apps.ManagementConfig',
     'register.apps.RegisterConfig',

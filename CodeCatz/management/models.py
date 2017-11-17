@@ -21,18 +21,16 @@ class Role(models.Model):
 	"""
 	Model for an employee role
 	"""
-	NOROLE = 'NOROLE'
 	COOK = 'COOK'
 	WAITER = 'WAITER'
 	DELIVERY = 'DELIVERY'
 	ROLE_CHOICES = (
-		(NOROLE, 'No Role'),
 		(COOK, 'Cook'),
 		(WAITER, 'Waiter'),
 		(DELIVERY, 'Delivery'),
 	)
 
-	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES, default=NOROLE)
+	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES)
 
 	def __str__(self):
 		return self.role
@@ -41,11 +39,12 @@ class Employee(Person):
 	"""
 	Model to represent an employee
 	"""
-	role = models.ForeignKey(Role, help_text="Employee role", null=True)
-	event = models.ForeignKey(Event, help_text="Assign employee to event", on_delete=models.CASCADE, null=True)
+	role = models.ForeignKey(Role, help_text="Employee role", null=True, blank=True)
+	event = models.ForeignKey(Event, help_text="Assign employee to event", on_delete=models.CASCADE, null=True, blank=True)
 
 	def __str__(self):
 		return self.name
+
 
 class Customer(Person):
 	"""

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if employee %}
+    <ul>
+        <li>Name: {{ employee.name }}</li>
+        <li>Address: {{ employee.address }}</li>
+        <li>Phone: {{ employee.phone }}</li>
+    {% for role in roles %}
+    	<li>{{role.role}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No employees exist</p>
+{% endif %}
+
+{% endblock %}
