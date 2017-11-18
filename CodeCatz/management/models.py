@@ -21,16 +21,18 @@ class Role(models.Model):
 	"""
 	Model for an employee role
 	"""
-	COOK = 'COOK'
+	NONE = 'NONE'
+	COOK = 'COOOK'
 	WAITER = 'WAITER'
 	DELIVERY = 'DELIVERY'
 	ROLE_CHOICES = (
+		(NONE, 'None'),
 		(COOK, 'Cook'),
 		(WAITER, 'Waiter'),
 		(DELIVERY, 'Delivery'),
 	)
 
-	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES)
+	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES, default=NONE, unique=True)
 
 	def __str__(self):
 		return self.role
@@ -39,19 +41,7 @@ class Employee(Person):
 	"""
 	Model to represent an employee
 	"""
-	COOK = 'COOK'
-	WAITER = 'WAITER'
-	DELIVERY = 'DELIVERY'
-	ROLE_CHOICES = (
-		(COOK, 'Cook'),
-		(WAITER, 'Waiter'),
-		(DELIVERY, 'Delivery'),
-	)
-
-	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES, null=True, blank=True)
-
-
-
+	role = models.ManyToManyField(Role, default=1)
 	#role = models.ForeignKey(Role, help_text="Employee role", null=True, blank=True)
 	event = models.ForeignKey(Event, help_text="Assign employee to event", on_delete=models.CASCADE, null=True, blank=True)
 
