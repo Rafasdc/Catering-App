@@ -39,7 +39,20 @@ class Employee(Person):
 	"""
 	Model to represent an employee
 	"""
-	role = models.ForeignKey(Role, help_text="Employee role", null=True, blank=True)
+	COOK = 'COOK'
+	WAITER = 'WAITER'
+	DELIVERY = 'DELIVERY'
+	ROLE_CHOICES = (
+		(COOK, 'Cook'),
+		(WAITER, 'Waiter'),
+		(DELIVERY, 'Delivery'),
+	)
+
+	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES, null=True, blank=True)
+
+
+
+	#role = models.ForeignKey(Role, help_text="Employee role", null=True, blank=True)
 	event = models.ForeignKey(Event, help_text="Assign employee to event", on_delete=models.CASCADE, null=True, blank=True)
 
 	def __str__(self):

@@ -6,9 +6,10 @@
         <li>Name: {{ employee.name }}</li>
         <li>Address: {{ employee.address }}</li>
         <li>Phone: {{ employee.phone }}</li>
-    {% for role in roles %}
+    {% for value, role in employee.role.field.choices %}
     	<li>{{role.role}}</li>
     {% endfor %}
+    	<li>Event: {{employee.event}}</li>
     </ul>
 {% else %}
     <p>No employees exist</p>
