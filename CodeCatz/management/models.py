@@ -26,10 +26,10 @@ class Role(models.Model):
 	WAITER = 'WAITER'
 	DELIVERY = 'DELIVERY'
 	ROLE_CHOICES = (
-		(NONE, 'None'),
-		(COOK, 'Cook'),
-		(WAITER, 'Waiter'),
-		(DELIVERY, 'Delivery'),
+		(NONE, 'NONE'),
+		(COOK, 'COOK'),
+		(WAITER, 'WAITER'),
+		(DELIVERY, 'DELIVERY'),
 	)
 
 	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES, default=NONE, unique=True)
