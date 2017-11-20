@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if employee %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.event }}
+        <input type="submit" value="Submit" />
+    </form>
+{% else %}
+    <p>No employees exist</p>
+{% endif %}
+
+{% endblock %}

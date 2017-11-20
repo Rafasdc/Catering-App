@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if employee %}
+<h1>{{employee.name}}</h1>
+<h3>Employee details</h3><p>Edit</p>
+    <ul>
+        <li>Address: {{ employee.address }}</li>
+        <li>Phone: {{ employee.phone }}</li>
+    </ul>
+<h3>Assigned Events</h3><a href="{% url 'management:employee_assign' employee.id %}"><p>Edit</p></a>
+<div>
+    {% for event in events %}
+    <hr>
+    <p>{{event}}</p>
+    {% endfor %}
+</div>
+{% else %}
+    <p>No such employee exist</p>
+{% endif %}
+
+{% endblock %}

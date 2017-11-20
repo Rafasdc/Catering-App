@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^scheduler/', include('scheduler.urls')),
     url(r'^events/', include('events.urls')),
     url(r'^menu/', include('menu.urls')),
-    url(r'^$', RedirectView.as_view(url='/catering/', permanent=True)),
-    url(r'^chaining/', include('smart_selects.urls')),
+    url(r'^management/', include('management.urls')),
+    url(r'^$', RedirectView.as_view(url='/catering/', permanent=True)),   
     ]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
