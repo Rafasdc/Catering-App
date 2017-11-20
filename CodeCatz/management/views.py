@@ -16,7 +16,7 @@ def view_employee(request, employee_id):
 
 def assign_employee(request, employee_id):
 	employee = Employee.objects.get(id=employee_id)
-	form = AssignEmployeeEvent(request.POST);
+	form = AssignEmployeeEvent(request.POST or None);
 
 	context = {'employee': employee,'form': form}
 	if request.method == 'POST':

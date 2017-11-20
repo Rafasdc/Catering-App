@@ -8,13 +8,16 @@ class AssignEmployeeEvent(forms.ModelForm):
 		model = Employee
 		fields = ('event',)
 
-	event = forms.ModelMultipleChoiceField(queryset=Event.objects.all())
+	event = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), required=False)
 
+	"""
 	def __init__(self, *args, **kwargs):
-		if kwargs.get('insance'):
+		if kwargs.get('instance'):
 			initial = kwargs.setdefault('initial', {})
 			initial['event'] = [t.pk for t in kwargs['instance'].event_set.all()]
+			empty_label=" "
 		forms.ModelForm.__init__(self, *args, **kwargs)
+	"""
 
 	def save(self, commit=True):
 		instance = forms.ModelForm.save(self, False)
