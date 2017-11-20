@@ -1,7 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from events.models import Event
 
-class Schedule(models.Model):
+class Schedule(Event):
 	"""
 	a list of events in chronological order
 	"""
@@ -11,20 +12,10 @@ class Schedule(models.Model):
 
 class Occurrence(models.Model):
 	"""
-	model representing the state of an event
+	model extends events.Event representing the state of an event
 	"""
 
-#	occurrance = models.OneToOneField(events.Event,on_delete=models.CASCADE,primary_key=True,)
-
-	EVENT_STATUS = (
-		('p', 'Pending'),
-		('n', 'Notified'),
-		('w', 'WorkingOn'),
-		('c', 'Complete'),
-	)
-
-	status = models.CharField(max_length=1, choices=EVENT_STATUS, blank=True, default='p',
-		help_text='Event Status')
+	# event = models.OneToOneField(Event,on_delete=models.CASCADE)
 
   # def get_absolute_url(self):
   #   """
@@ -35,8 +26,8 @@ class Occurrence(models.Model):
 	def __str__(self):
 		return self.name
 
-	class Meta:
-		ordering = ["occurrence__date"]
+	# class Meta:
+	# 	ordering = ["date"]
 
 
 class ScheduleManager(models.Model):
