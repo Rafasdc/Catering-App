@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'employee.apps.EmployeeConfig',
     'register.apps.RegisterConfig',
     'events.apps.EventsConfig',
+    'menu.apps.MenuConfig',
+    'smart_selects',
+
 ]
 
 MIDDLEWARE = [
@@ -132,3 +135,5 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+USE_DJANGO_JQUERY = True
