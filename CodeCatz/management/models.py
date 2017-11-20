@@ -26,13 +26,12 @@ class Role(models.Model):
 	WAITER = 'WAITER'
 	DELIVERY = 'DELIVERY'
 	ROLE_CHOICES = (
-		(NONE, 'NONE'),
 		(COOK, 'COOK'),
 		(WAITER, 'WAITER'),
 		(DELIVERY, 'DELIVERY'),
 	)
 
-	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES, default=NONE, unique=True)
+	role = models.CharField(max_length=15, help_text="Choose role", choices=ROLE_CHOICES, unique=True, null=True)
 
 	def __str__(self):
 		return self.role
@@ -41,9 +40,9 @@ class Employee(Person):
 	"""
 	Model to represent an employee
 	"""
-	role = models.ManyToManyField(Role, default=1)
+	role = models.ManyToManyField(Role,blank=True)
 	#role = models.ForeignKey(Role, help_text="Employee role", null=True, blank=True)
-	event = models.ForeignKey(Event, help_text="Assign employee to event", on_delete=models.CASCADE, null=True, blank=True)
+	event = models.ManyToManyField(Event, help_text="Assign employee to event",blank=True)
 
 	def __str__(self):
 		return self.name

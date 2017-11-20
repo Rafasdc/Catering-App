@@ -2,18 +2,9 @@
 {% block content %}
 
 {% if employee %}
-    <ul>
-        <li>Name: {{ employee.name }}</li>
-        <li>Address: {{ employee.address }}</li>
-        <li>Phone: {{ employee.phone }}</li>
-        <li>Roles: {{employee.role}}</li>
-    	<li>Event: {{employee.event}}</li>
-    </ul>
     <form action="" method="post">
         {% csrf_token %}
-        <table>
         {{ form }}
-        </table>
         <input type="submit" value="Submit" />
     </form>
 {% else %}

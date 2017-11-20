@@ -5,7 +5,7 @@
 	<h1>Current Employees</h1>
     <ul>
     {% for employees in employee_list %}
-        <li><a href="/management/employee/{{ employees.id }}/">{{ employees.name }}</a></li>
+        <li><a href="{% url 'management:employee' employees.id %}">{{ employees.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

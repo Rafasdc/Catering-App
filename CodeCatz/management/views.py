@@ -8,14 +8,25 @@ def dashboard(request):
 	context = {'employee_list': employee_list}
 	return render(request, 'management/dashboard.html', context)
 
-def manage_employee(request, employee_id):
+def view_employee(request, employee_id):
 	employee = Employee.objects.get(id=employee_id)
-	roles = Role.objects.all()
-	form = AssignEmployee(request.POST);
-	context = {'employee': employee, 'roles': roles, 'form': form}
+	events = employee.event.all()
+	context = {'employee' : employee, 'events': events}
+	return render (request, 'management/employee_view.html', context)
+
+def assign_employee(request, employee_id):
+	employee = Employee.objects.get(id=employee_id)
+	form = AssignEmployeeEvent(request.POST);
+
+	context = {'employee': employee,'form': form}
 	if request.method == 'POST':
 		if form.is_valid():
-			employee.role = form.cleaned_data.get('role')
+			employee.event = form.cleaned_data.get('event')
 			employee.save()
-	return render(request, 'management/employee.html', context)
+	return render(request, 'management/employee_assign.html', context)
+
+def edit_employee(request, employee_id):
+	"""
+	Edit employee
+	"""
 
