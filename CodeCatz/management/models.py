@@ -41,7 +41,6 @@ class Employee(Person):
 	Model to represent an employee
 	"""
 	role = models.ManyToManyField(Role,blank=True)
-	#role = models.ForeignKey(Role, help_text="Employee role", null=True, blank=True)
 	event = models.ManyToManyField(Event, help_text="Assign employee to event",blank=True)
 
 	def __str__(self):

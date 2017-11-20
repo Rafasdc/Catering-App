@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 from events.models import Event
+from django.forms.widgets import CheckboxSelectMultiple
 
 
 class AssignEmployeeEvent(forms.ModelForm):
@@ -8,7 +9,7 @@ class AssignEmployeeEvent(forms.ModelForm):
 		model = Employee
 		fields = ('event',)
 
-	event = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), required=False)
+	event = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), required=False, widget=CheckboxSelectMultiple)
 
 	"""
 	def __init__(self, *args, **kwargs):

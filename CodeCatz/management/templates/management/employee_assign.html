@@ -4,7 +4,7 @@
 {% if employee %}
     <form action="" method="post">
         {% csrf_token %}
-        {{ form }}
+        {{ form.event }}
         <input type="submit" value="Submit" />
     </form>
 {% else %}

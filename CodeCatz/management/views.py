@@ -16,13 +16,17 @@ def view_employee(request, employee_id):
 
 def assign_employee(request, employee_id):
 	employee = Employee.objects.get(id=employee_id)
-	form = AssignEmployeeEvent(request.POST or None);
-
+	events = []
+	for event in employee.event.all():
+		events.append(event.eventID)
+	form = AssignEmployeeEvent(request.POST or None, initial={'event': events});
 	context = {'employee': employee,'form': form}
 	if request.method == 'POST':
 		if form.is_valid():
 			employee.event = form.cleaned_data.get('event')
 			employee.save()
+
+			return HttpResponseRedirect(reverse('management') )
 	return render(request, 'management/employee_assign.html', context)
 
 def edit_employee(request, employee_id):
