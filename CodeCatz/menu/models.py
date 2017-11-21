@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.timezone import now
 import uuid
-from smart_selects.db_fields import ChainedForeignKey, ChainedManyToManyField
 from django_extensions.db.models import TimeStampedModel, TitleSlugDescriptionModel
 from django_extensions.db.fields import AutoSlugField
 from django.utils.translation import ugettext_lazy as _
+
 class Category(TitleSlugDescriptionModel):
     
     class Meta:
@@ -15,8 +15,8 @@ class Category(TitleSlugDescriptionModel):
         return self.title
 
 class Ingredient(TimeStampedModel):
-    name=models.CharField('Name', max_length=100)
-    description=models.TextField('Description', blank=True, null=True)
+    name=models.CharField(_('Name'), max_length=100)
+    description=models.TextField(_('Description'), blank=True, null=True)
     category=models.ForeignKey(Category)
 
     def __str__(self):
@@ -24,6 +24,7 @@ class Ingredient(TimeStampedModel):
 
 class IngredientQuantity(TimeStampedModel):
     UNIT_CHOICES = (('oz', 'ounce'), ('c', 'cup'), ('lb', 'pound'), ('ts', 'teaspoon'), ('T', 'tablespoon'))
+    recipe = models.ForeignKey('Recipe')
     ingredient=models.ForeignKey(Ingredient)
     quantity=models.DecimalField(_('Quantity'), max_digits=5, decimal_places=2)
     unit=models.CharField(_('Unit'), choices=UNIT_CHOICES, max_length=3, blank=True, null=True)
@@ -47,39 +48,33 @@ class Recipe(TitleSlugDescriptionModel, TimeStampedModel):
     (u'lunch', u'Lunch'),
     (u'din', u'Dinner'),
     (u'des', u'Desert'),
+    (u'side', u'Side'),
     (u'bfast', u'Breakfast'),
     )
-    ingredient_quantities = models.ManyToManyField(IngredientQuantity, blank=True)
+
+    ingredients = models.ManyToManyField(Ingredient, blank=True, through=IngredientQuantity)
     meal_type = models.CharField(_('Type'), max_length=100, choices=APPROVAL_CHOICES, null=True)
     cost = models.DecimalField(max_digits=6, decimal_places=2, help_text="Select cost for this menu item.", null=True)
-
+    serves = models.IntegerField(_('Serves'), default=1)
     def __str__(self):
         """
         String for representing the Model object (in Admin site etc.)
         """
         return self.title
 
-class RecipeQuantity(TimeStampedModel):
-    recipe = models.ForeignKey(Recipe)
-    recipe_quantities = models.IntegerField(_('Quantity'), default=1)
-
-    class Meta:
-        verbose_name=_('Recipe Quantity')
-        verbose_name_plural=_('Recipe Quantities')
-
-    def __str__(self):
-        return ' '.join([str(self.recipe_quantities), self.recipe.title])
-
-
-
 class MenuItem(TimeStampedModel):
-    menu_constituents = models.ManyToManyField(RecipeQuantity)
+    menu_constituents = models.ManyToManyField(Recipe)
 
     def __str__(self):
-        stringVal = ''
+        return ', '.join(x.__str__() for x in self.menu_constituents.all())
+
+    @property
+    def menu_items(self):
+        items ={}
         for x in self.menu_constituents.all():
-            stringVal += x.__str__() + " "
-        return stringVal
+            items[x.recipe.title] = x.recipe.recipe_quantities
+        
+        return items
 
 
 class Menu(TimeStampedModel, models.Model):
@@ -87,7 +82,8 @@ class Menu(TimeStampedModel, models.Model):
     Represents a Menu of MenuItem
     """
     menu_items = models.ManyToManyField(MenuItem, help_text="Add menu item to this menu.")
-
+    quantity=models.IntegerField(_('Quantity'), default=1, help_text="How many times shall we repeat this menu?")
+    
     @property
     def shopping_list(self):
         pass
@@ -97,5 +93,5 @@ class Menu(TimeStampedModel, models.Model):
         pass
 
     def __str__(self):
-        return ' '.join(self.menu_items.all())
+        return ', '.join(x.__str__() for x in self.menu_items.all())
         

@@ -1,27 +1,12 @@
 from django import forms
-from menu.models import BaseMenuItem, Menu, MenuItem, MenuItemDecorator, Food
+from menu.models import IngredientQuantity, Ingredient
 
-class MenuForm(forms.ModelForm):
-    class Meta:
-        model = Menu
-        fields ='__all__'
+from dal import autocomplete
 
-class MenuItemForm(forms.ModelForm):
+class IngredientQuantityForm(forms.ModelForm):
     class Meta:
-        model = MenuItem
-        fields ='__all__'
-
-class BaseMenuItemForm(forms.ModelForm):
-    class Meta:
-        model = BaseMenuItem
-        fields ='__all__'
-
-class MenuItemDecoratorForm(forms.ModelForm):
-    class Meta:
-        model = MenuItemDecorator
-        fields ='__all__'
-
-class FoodForm(forms.ModelForm):
-    class Meta:
-        model = Food
-        fields ='__all__'
+        model = IngredientQuantity
+        fields = ('__all__')
+        widgets = {
+            'ingredient': autocomplete.ModelSelect2(url='ingredient-autocomplete',)
+        }
