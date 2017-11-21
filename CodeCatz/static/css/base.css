@@ -20,9 +20,9 @@ h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
 
 .header {
     padding:20px 40px;
-    background-color:#12c064;
+    background-color:#809ecc;
     color:#f3f7cc;
-    border-bottom:4px solid #1cdf78;
+    border-bottom:4px solid #566a89;
     height: 80px;
     box-sizing: border-box;
     display: flex;
@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
 
 /* Change the color of links on hover */
 .header .header-limiter nav a:hover {
-    background-color: #ddd;
+    background-color: #a5b4cc;
     color: black;
 }
 
@@ -102,7 +102,7 @@ h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
 }
 
 .header .header-limiter ul li:not(:last-child):hover{
-	background-color: #ddd;
+	background-color: #a5b4cc;
     color: black;
 }
 
