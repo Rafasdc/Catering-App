@@ -10,6 +10,9 @@ a {
     color:#12c064;
     text-decoration:none;
 }
+ul{
+    list-style: none;
+}
 
 a:hover {
     color:#00a74f;
@@ -85,7 +88,7 @@ h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
 }
 
 .header .header-limiter ul {
-    
+
 	font: 14px Arial, Helvetica, sans-serif;
 	list-style: none;
     display: flex;
