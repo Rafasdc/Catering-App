@@ -3,6 +3,7 @@ from django.utils.timezone import now
 import uuid
 from django_extensions.db.models import TimeStampedModel, TitleSlugDescriptionModel
 from django_extensions.db.fields import AutoSlugField
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 class Category(TitleSlugDescriptionModel):
@@ -81,9 +82,10 @@ class Menu(TimeStampedModel, models.Model):
     """
     Represents a Menu of MenuItem
     """
-    menu_items = models.ManyToManyField(MenuItem, help_text="Add menu item to this menu.")
+    name = models.CharField(_('Title'), max_length=100)
+    menu_items = models.ManyToManyField(MenuItem, help_text="Add meal to this menu.")
     quantity=models.IntegerField(_('Quantity'), default=1, help_text="How many times shall we repeat this menu?")
-    
+   
     @property
     def shopping_list(self):
         pass
@@ -93,5 +95,5 @@ class Menu(TimeStampedModel, models.Model):
         pass
 
     def __str__(self):
-        return ', '.join(x.__str__() for x in self.menu_items.all())
+        return self.name
         
