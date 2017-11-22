@@ -75,7 +75,7 @@ class MenuItem(TimeStampedModel):
         items ={}
         for x in self.menu_constituents.all():
             items[x.recipe.title] = x.recipe.recipe_quantities
-        
+
         return items
 
 
@@ -90,7 +90,7 @@ class Menu(TimeStampedModel, models.Model):
     @property
     def shopping_list(self):
         pass
-    
+
     @property
     def total_cost(self):
         pass
@@ -100,4 +100,3 @@ class Menu(TimeStampedModel, models.Model):
 
     def get_absolute_url(self):
     	return reverse('menu-details', args=[str(self.id)])
-        

@@ -45,7 +45,7 @@ class LunchAutocomplete(autocomplete.Select2QuerySetView):
             return Recipe.objects.none()
 
         qs = Recipe.objects.filter(meal_type='lun')
-        
+
         if self.q:
             qs = qs.filter(title__icontains=self.q)
 
@@ -58,7 +58,7 @@ class DesertAutocomplete(autocomplete.Select2QuerySetView):
             return Recipe.objects.none()
 
         qs = Recipe.objects.filter(meal_type='des')
-        
+
         if self.q:
             qs = qs.filter(title__icontains=self.q)
 
@@ -71,7 +71,7 @@ class AppAutocomplete(autocomplete.Select2QuerySetView):
             return Recipe.objects.none()
 
         qs = Recipe.objects.filter(meal_type='app')
-        
+
         if self.q:
             qs = qs.filter(title__icontains=self.q)
 
@@ -84,7 +84,7 @@ class SideAutocomplete(autocomplete.Select2QuerySetView):
             return Recipe.objects.none()
 
         qs = Recipe.objects.filter(meal_type='side')
-        
+
         if self.q:
             qs = qs.filter(title__icontains=self.q)
 
@@ -97,7 +97,7 @@ class BfastAutocomplete(autocomplete.Select2QuerySetView):
             return Recipe.objects.none()
 
         qs = Recipe.objects.filter(meal_type='bfast')
-        
+
         if self.q:
             qs = qs.filter(title__icontains=self.q)
 

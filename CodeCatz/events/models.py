@@ -6,7 +6,7 @@ import datetime
 from menu.models import Menu
 
 class Event(models.Model):
-    	
+
 	EVENT_TYPE = (
 		('Wedding', 'Wedding'),
 		('Corporate', 'Corporate'),
@@ -24,7 +24,7 @@ class Event(models.Model):
 	endTime = models.TimeField(default = datetime.time(22, 00), help_text="Enter end time.")
 	location = models.CharField(max_length=255, help_text="Enter location")
 	menu = models.ForeignKey(Menu, null=True, blank=True, help_text="Choose a menu")
-	# menu = models.ManyToManyField()
+
 	EVENT_STATUS = (
 		('p', 'Pending'),
 		('n', 'Notified'),
