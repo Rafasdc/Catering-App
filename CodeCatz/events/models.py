@@ -2,8 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Event(models.Model):
+    	
+	EVENT_TYPE = (
+		('w', 'Wedding'),
+		('c', 'Corporate'),
+		('p','Private'),
+		('s', 'Social'),
+		('b', 'Bar'),
+	)
 
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	status = models.CharField(max_length=1, choices=EVENT_TYPE, blank=True, default='s', help_text='Event type.')
 	numGuests = models.IntegerField('Number of Guests')
 	startTime = models.TimeField(null=True, blank=True)
 	date = models.DateField(null=True, blank=True)

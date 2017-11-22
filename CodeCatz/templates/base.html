@@ -19,7 +19,9 @@
 			<span class="logo">Cats Catering</span>
 			<nav id='nav'>
 				<a href="{% url 'home'%}">Home</a>
-				<a href="{% url 'book'%}">Book An Event</a>
+				{% if user.is_authenticated %}
+					<a href="{% url 'events'%}">Book An Event</a>
+				{% endif %}
 				<a href="{% url 'menu-items' %}">Menu</a>
 				<a href="/contact/">Contact</a>
 				<a href="javascript:void(0);" class="icon" onclick="navOnOff()">&#9776;</a>

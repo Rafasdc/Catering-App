@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
-from django.views import generic
+from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-class EventDetailView(LoginRequiredMixin,generic.DetailView):
-    model = Event
-    context_object_name = 'event_detail'
-    template_name = 'events/event_detail.html'
+class EventDetailView(LoginRequiredMixin, TemplateView):
+    template_name = 'events/events.html'
 
-    def get_queryset(self):
-        return Event.objects.filter(user=self.request.user).filter(status__exact='o').order_by('date')
+    def get_context_data(self, **kwargs):
+        context = super(EventDetailView, self).get_context_data(**kwargs)
+        context['events'] =  Event.objects.filter(user=self.request.user)
+        return context
