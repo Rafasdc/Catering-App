@@ -4,5 +4,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^event_detail/', TemplateView.as_view(template_name="events/event_detail.html"), name='book'),
+    url(r'^$', views.EventDetailView.as_view(), name='events'),
+    url(r'^create/$', views.EventCreateView.as_view(), name='create-event'),
+    url(r'^update/(?P<pk>\d+)/$', views.EventEditView.as_view(), name='event-update'),
 ]

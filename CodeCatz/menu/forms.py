@@ -70,5 +70,13 @@ class CreateMenuItemForm(forms.ModelForm):
 class CreateMenuForm(forms.ModelForm):
     class Meta:
         model = Menu
-        fields = ['menu_items', 'quantity',]
+        fields = ['name', 'menu_items']
+    
+    def save(self, user=None):
+        menu = super(CreateMenuForm, self).save(commit=False)
+        if user:
+            menu.user = user
+        menu.save()
+        self.save_m2m()
+        return menu
         

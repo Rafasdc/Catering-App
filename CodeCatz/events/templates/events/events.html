@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title%}Events {% endblock %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/events.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+
+		<h1>Events</h1>
+    {% if user.is_authenticated %}
+      {% if events %}
+      <table id="events">
+          <tr>
+            <th>Event Type</th>
+            <th>Number of Guests</th>
+            <th>Day</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Location</th>
+            <th>Menu</th>
+            <th>Edit</th>
+          </tr>
+          {% for event in events %}
+          <tr>
+            <td>{{ event.event_type }}</td>
+            <td>{{ event.numGuests }}</td>
+            <td>{{ event.date }}</td>
+            <td>{{ event.startTime }}</td>
+            <td>{{ event.endTime }}</td>
+            <td>{{ event.location }}</td>
+            <td><a href="{{ event.menu.get_absolute_url }}">{{event.menu}}</a></td>
+            <td><a href="{% url 'event-update' event.pk%}">Edit Event</a></td>
+          </tr>
+          {% endfor %}
+      </table>
+
+      {% else %}
+        <p>There are no events.</p>
+      {% endif %}
+      <center>
+        <br>
+        <a href="{% url 'create-event' %}" class="button">Create Event</a>
+      </center>
+    {% else %}
+      <p>Events can be created based on you guests, your type of event, and your menu needs!</p>
+    {% endif %}
+
+
+
+{% endblock %}
