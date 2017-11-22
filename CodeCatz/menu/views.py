@@ -133,8 +133,16 @@ class ViewCreateMenu(LoginRequiredMixin, CreateView):
     Create a menu
     """
     model = Menu
-    fields = '__all__'
-    success_url = reverse_lazy('menu-options')
+    template_name="menu/menu_form.html"
+    form_class = CreateMenuForm
+
+    def form_valid(self, form):
+        form.save(self.request.user)
+        return super(ViewCreateMenu, self).form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse_lazy('menu-options')
+
 
 class ViewListMenus(LoginRequiredMixin, generic.ListView):
     """

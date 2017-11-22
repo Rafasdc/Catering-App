@@ -7,7 +7,7 @@ p {
 }
 
 a {
-    color:#12c064;
+    color:#809ecc;
     text-decoration:none;
 }
 ul{
@@ -15,7 +15,7 @@ ul{
 }
 
 a:hover {
-    color:#00a74f;
+    color:#566a89;
 }
 
 h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
@@ -78,7 +78,7 @@ h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
 
 /* Add an active class to highlight the current page */
 .header .header-limiter nav a.active {
-    background-color: #1b6d32;
+    background-color: #566a89;
     color: white;
 }
 
@@ -113,7 +113,7 @@ h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
 
 .header .header-limiter ul li:last-child a {
 	font-weight: bold;
-	background-color: #1b6d32;
+	background-color: #566a89;
 	padding: 10px 15px;
 	border-radius: 3px;
 }
@@ -148,21 +148,21 @@ h1, h2, h3, h4, h5 , h6 { font-family: 'Muli', sans-serif; font-weight:normal; }
 
 input[type=submit], a.button {
     font-weight:bold;
-    background:#12c064;
+    background:#809ecc;
     color:#fff;
     padding:10px 20px;
     font-size:14px;
     text-transform:uppercase;
     -webkit-transition-duration: 0.2s; /* Safari */
     transition-duration: 0.2s;
-    border: 2px solid #12c064;
+    border: 2px solid #809ecc;
     cursor: pointer;
 }
 
 input[type=submit]:hover {
     background-color: white; /* Green */
     color: black;
-    border: 2px solid #12c064;
+    border: 2px solid #809ecc;
 }
 
 body {

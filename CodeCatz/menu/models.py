@@ -5,6 +5,7 @@ from django_extensions.db.models import TimeStampedModel, TitleSlugDescriptionMo
 from django_extensions.db.fields import AutoSlugField
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse
 
 class Category(TitleSlugDescriptionModel):
     
@@ -82,10 +83,10 @@ class Menu(TimeStampedModel, models.Model):
     """
     Represents a Menu of MenuItem
     """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(_('Title'), max_length=100)
     menu_items = models.ManyToManyField(MenuItem, help_text="Add meal to this menu.")
-    quantity=models.IntegerField(_('Quantity'), default=1, help_text="How many times shall we repeat this menu?")
-   
+
     @property
     def shopping_list(self):
         pass
@@ -96,4 +97,7 @@ class Menu(TimeStampedModel, models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+    	return reverse('menu-details', args=[str(self.id)])
         
