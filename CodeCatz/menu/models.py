@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 class Category(TitleSlugDescriptionModel):
-    
+
     class Meta:
         verbose_name='Category'
         verbose_name_plural='Categories'

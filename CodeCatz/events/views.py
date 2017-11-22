@@ -10,4 +10,4 @@ class EventDetailView(LoginRequiredMixin,generic.DetailView):
     template_name = 'events/event_detail.html'
 
     def get_queryset(self):
-        return Event.objects.filter(user=self.request.user).filter(status__exact='o').order_by('date')
+        return Event.objects.filter(user=self.request.user).order_by('date')
