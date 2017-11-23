@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/forms.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block title%}
+Create an Event
+{% endblock %}
+
+{% block content %}
+<h1>Event Form</h1>
+<form method="post" class="form-view">
+    {% csrf_token %}
+    <ul>
+      {% for field in form %}
+        <li>
+          
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            {% for error in field.errors %}
+              <span class='error-span'>{{error}}</span>
+            {% endfor %}
+          {% else %}
+            {% if field.help_text %}
+              <span>{{ field.help_text|safe }}</span>
+            {% endif %}
+          {% endif %}
+        </li>
+        
+      {% endfor %}
+      <li><div>
+          <input type="submit" value="Submit"/>
+          <input type="hidden" name="next" value="{{ next }}" />
+        </div></li>
+    </ul>
+  </form>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form.media }}
+{% endblock %}

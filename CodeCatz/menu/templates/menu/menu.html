@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/menu.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block title%}
+Menu Items
+{% endblock %}
+
+{% block content %}
+    <center>
+        <h1>
+            Menu
+        </h1>
+        <p>Below is the offered recipes, which can be put together to form a meal. You can then add these meals to your final menu. Or you can choose a pre-set menu.
+    {% if user.is_authenticated %}
+        <ul>
+            <li><a href="{% url 'menu-create' %}">Click here to create menu.</a></li>
+            <li><a href="{% url 'menu-options'%}">Click here to choose pre-defined menu.</a></li>
+        </ul>
+    {% endif %}
+</p>
+    </center>   
+    <div class="menu-body">
+        {% if Breakfast %}
+            <div class="menu-section">
+                <h2 class="menu-section-title">Breakfast Options</h2>
+                <div class="menu-item">
+                    {% for x in Breakfast %}
+                        <div class="menu-item-name">{{x.title}}</div>
+                        <div class="menu-item-price">{{x.cost}}</div>
+                        <div class="menu-item-description">{{x.description}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if Lunch %}
+            <div class="menu-section">
+                <h2 class="menu-section-title">Lunch Options</h2>
+                <div class="menu-item">
+                    {% for x in Lunch %}
+                        <div class="menu-item-name">{{x.title}}</div>
+                        <div class="menu-item-price">{{x.cost}}</div>
+                        <div class="menu-item-description">{{x.description}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if App %}
+            <div class="menu-section">
+                <h2 class="menu-section-title">Appetizer Options</h2>
+                <div class="menu-item">
+                    {% for x in Appetizer %}
+                        <div class="menu-item-name">{{x.title}}</div>
+                        <div class="menu-item-price">{{x.cost}}</div>
+                        <div class="menu-item-description">{{x.description}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if Dinner %}
+            <div class="menu-section">
+                <h2 class="menu-section-title">Dinner Options</h2>
+                <div class="menu-item">
+                    {% for x in Dinner %}
+                        <div class="menu-item-name">{{x.title}}</div>
+                        <div class="menu-item-price">{{x.cost}}</div>
+                        <div class="menu-item-description">{{x.description}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if Side %}
+            <div class="menu-section">
+                <h2 class="menu-section-title">Dinner Sides</h2>
+                <div class="menu-item">
+                    {% for x in Side %}
+                        <div class="menu-item-name">{{x.title}}</div>
+                        <div class="menu-item-price">{{x.cost}}</div>
+                        <div class="menu-item-description">{{x.description}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if Desert %}
+            <div class="menu-section">
+                <h2 class="menu-section-title">Desert Options</h2>
+                <div class="menu-item">
+                    {% for x in Desert %}
+                        <div class="menu-item-name">{{x.title}}</div>
+                        <div class="menu-item-price">{{x.cost}}</div>
+                        <div class="menu-item-description">{{x.description}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

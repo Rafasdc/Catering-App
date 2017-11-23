@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'dal',
+    'dal_select2',
+    # 'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +46,8 @@ INSTALLED_APPS = [
     'management.apps.ManagementConfig',
     'register.apps.RegisterConfig',
     'events.apps.EventsConfig',
+    'menu.apps.MenuConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -126,6 +131,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, "")
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"), 
 ]
@@ -133,3 +140,4 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+

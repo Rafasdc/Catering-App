@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Created Menus</h1>
+
+    {% if menu_list %}
+    <ul>
+
+      {% for menu in menu_list %} 
+      <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'menu-details' menu.pk %}">{{menu.name}}</a>       
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no made menus.</p>
+    {% endif %}       
+{% endblock %}
