@@ -80,11 +80,42 @@ class Command(BaseCommand):
         salt.save()
         black_pepper, created = Ingredient.objects.get_or_create(name="Black Pepper", category=s)
         black_pepper.save()
-        
+        romaine_lettuce, created = Ingredient.objects.get_or_create(name="Romaine Lettuce", category=v)
+        romaine_lettuce.save()
+        roma_tomato, created = Ingredient.objects.get_or_create(name="Roma Tomato", category=v)
+        roma_tomato.save()
+        carrot, created = Ingredient.objects.get_or_create(name="Carrot", category=v)
+        carrot.save()
+        red_cabbage, created = Ingredient.objects.get_or_create(name="Red Cabbage", category=v)
+        red_cabbage.save()
+        self.create_ingredient("Cucumber", v)
+        self.create_ingredient("Red Onion", v)
+        self.create_ingredient("Cheddar Cheese", d)
+        self.create_ingredient("Ranch", c)
+        self.create_ingredient("Potato", v)
+        self.create_ingredient("Sour Cream", d)
+        self.create_ingredient("Bacon", p)
+        self.create_ingredient("Green Onion", v)
+        self.create_ingredient("Ketchup", c) 
+        self.create_ingredient("Apple", f)  
+        self.create_ingredient("Chicken", p)    
+        self.create_ingredient("Salmon", p)
+        self.create_ingredient("Lemon", f)
+        self.create_ingredient("Dill", ss)  
+        self.create_ingredient("Rye Bread", carb)
+        self.create_ingredient("Turkey Breast", p)
+
 
         """
         Add your own recipes and quantities on /admin/, easier. Populate ingredients here.
         """
+    def create_category(self, name):
+        temp, created = Category.objects.get_or_create(title=name)
+        temp.save()
+    
+    def create_ingredient(self, name, category):
+        temp, created = Ingredient.objects.get_or_create(name=name, category=category)
+        temp.save()
 
 
     def handle(self, *args, **options):
