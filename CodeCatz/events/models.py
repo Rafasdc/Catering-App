@@ -27,6 +27,7 @@ class Event(models.Model):
 
 	EVENT_STATUS = (
 		('p', 'Pending'),
+		('a', 'Approved'),
 		('n', 'Notified'),
 		('w', 'WorkingOn'),
 		('c', 'Complete'),
