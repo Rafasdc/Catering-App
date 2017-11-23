@@ -151,13 +151,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = 'Cats <codecatz3309@gmail.com>'
-ADMINS = (
-    ('jason', 'jasonsanche@gmail.com'),
-)
 
-MANAGERS = ADMINS
-LIST_OF_EMAIL_RECIPIENTS = ['jasonsanche@gmail.com',]
+LIST_OF_EMAIL_RECIPIENTS = ['test@gmail.com',]
 EMAIL_MESSAGE = {
-    'Pending': 'A new event has been requested. Please review and approve',
-    'Approved': 'Your requested event with Cats Catering has been approved',
+    'p': 'A new event has been requested. Please review and approve',
+    'a': 'Your requested event with Cats Catering has been approved',
 }
