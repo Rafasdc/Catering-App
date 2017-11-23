@@ -140,7 +140,7 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'app-mails')
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'codecatz3309@gmail.com'
@@ -154,4 +154,5 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+LIST_OF_EMAIL_RECIPIENTS = ['jasonsanche@gmail.com',]
 

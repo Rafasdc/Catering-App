@@ -4,6 +4,6 @@ from . import views
 
 
 urlpatterns = [
-		url(r'^email/$', views.EmailView.as_view(), name='email'),
-		url(r'^thanks/$', views.EmailView.as_view(), name='thanks'),
+		url(r'^email/$', views.email, name='email'),
+		url(r'^success/$', views.success, name='success'),
 ]
