@@ -1,5 +1,6 @@
+exclude:
+- .*/migrations/.*
+- /CodeCatz/CodeCatz/settings.py
 component_depth: 2
 languages:
 - python
-exclude:
-- .*/migrations/.*
