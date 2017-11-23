@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/forms.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block title%}
+Create an Event
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-actions">
+      <button type="submit">Send</button>
+    </div>
+</form>
+{% endblock %}

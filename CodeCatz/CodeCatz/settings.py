@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     # 'grappelli',
+    'django_outbox',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,10 +135,23 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "")
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"), 
+    os.path.join(BASE_DIR, "static"),
 ]
 
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'app-mails')
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'codecatz3309@gmail.com'
+EMAIL_HOST_PASSWORD = 'slurp.dasher.output'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = 'Cats <codecatz3309@gmail.com>'
+ADMINS = (
+    ('jason', 'jasonsanche@gmail.com'),
+)
+
+MANAGERS = ADMINS
 
