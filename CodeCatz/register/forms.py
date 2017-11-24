@@ -15,7 +15,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username','email', 'password1', 'password2', )
+        fields = ('username','email','first_name','last_name', 'password1', 'password2', )
         help_texts = {
             'password1': "Your password must be at least 8 characters, not entirely alphanumeric, commonly used, or similar to personal information.",
 }
@@ -29,3 +29,4 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username','email','first_name','last_name']
+        #required = {'email':True,}

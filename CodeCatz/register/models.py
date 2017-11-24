@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.TextField(max_length=100, blank=True)
-    phone = models.CharField(max_length=30, blank=True)
+    phone = models.CharField(max_length=30, help_text="Required")
 
     def create_profile(sender, **kwargs):
         user = kwargs["instance"]
