@@ -6,34 +6,33 @@ from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import UserProfile
-from .forms import UserProfileForm
+from .forms import *
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
 from register.forms import SignUpForm
 
 def signup(request):
-    ProfileInlineFormset = inlineformset_factory(User, UserProfile, fields=('phone', 'address'))
     if request.method == 'POST':
         form = SignUpForm(request.POST)   
-        formset = ProfileInlineFormset(request.POST)
-        if form.is_valid():
-            created_user = form.save(commit=False)
-            formset = ProfileInlineFormset(request.POST, instance=created_user)
-            if formset.is_valid():
-                created_user.save()
-                #formset.save()
-                username = form.cleaned_data.get('username')
-                raw_password = form.cleaned_data.get('password1')
-                user = authenticate(username=username, password=raw_password)
-                login(request, user)
-                return redirect(reverse('home'))
-                
+        profile_form = ProfileForm(request.POST)
+
+        if form.is_valid() and profile_form.is_valid():
+            created_user = form.save()
+            created_profile = UserProfile.objects.get(id=created_user.pk)
+            created_profile.phone = profile_form.cleaned_data.get('phone')
+            created_profile.address = profile_form.cleaned_data.get('address')
+            created_profile.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect(reverse('home'))          
     else:
-        formset = ProfileInlineFormset()
         form = SignUpForm()
+        profile_form = ProfileForm()
     return render(request, 'register/signup.html', {
             "form": form,
-            "formset": formset,
+            "profile_form": profile_form,
         })
 
 @login_required
