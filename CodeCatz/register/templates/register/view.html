@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user %}
+<h1>{{user.first_name}} {{user.last_name}}</h1><a href="{% url 'edit_account' user.id %}">Edit</a>
+<h3>User details</h3>
+    <ul>
+    	<li>Email: {{user.email}}</li>
+        <li>Address: {{ userProfile.address }}</li>
+        <li>Phone: {{ userProfile.phone }}</li>
+    </ul>
+{% else %}
+    <p>No such account exits</p>
+{% endif %}
+
+
+{% endblock %}

@@ -24,7 +24,7 @@ class CreateMenuItemForm(forms.ModelForm):
    
     def __init__(self, *args, **kwargs):
 
-        if kwargs.get('instance'):              
+        if kwargs.get('instance'):
             initial = kwargs.setdefault('initial', {})
             initial['dinner_options'] = [t.pk for t in kwargs['instance'].menu_constituents.all()]
             initial['side_options'] = [t.pk for t in kwargs['instance'].menu_constituents.all()]
@@ -63,7 +63,7 @@ class CreateMenuItemForm(forms.ModelForm):
         if commit:
             instance.save()
             self.save_m2m()
-            
+
 
         return instance
 

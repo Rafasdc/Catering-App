@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+          <form method="POST" class="form-view">
+            {% csrf_token %} {{ noodle_form.as_ul }}
+            {{ formset.management_form }}
+                {{ formset.as_ul }}
+            <button type="submit" class="btn-floating btn-large waves-light waves-effect"><i class="large material-icons">done</i></button>
+            <a href="#" onclick="window.history.back(); return false;" title="Cancel" class="btn-floating waves-effect waves-light red"><i class="material-icons">history</i></a>
+
+            </form>
+
+{% endblock %}

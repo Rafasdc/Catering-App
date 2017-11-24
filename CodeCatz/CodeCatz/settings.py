@@ -140,6 +140,8 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = '/'
 
+# settings for emails and notifications
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'app-mails')
 EMAIL_HOST = 'smtp.gmail.com'
@@ -149,10 +151,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = 'Cats <codecatz3309@gmail.com>'
-ADMINS = (
-    ('jason', 'jasonsanche@gmail.com'),
-)
 
-MANAGERS = ADMINS
-LIST_OF_EMAIL_RECIPIENTS = ['jasonsanche@gmail.com',]
-
+LIST_OF_EMAIL_RECIPIENTS = ['test@gmail.com',]
+EMAIL_MESSAGE = {
+    'p': 'A new event has been requested. Please review and approve',
+    'a': 'Your requested event with Cats Catering has been approved',
+}
