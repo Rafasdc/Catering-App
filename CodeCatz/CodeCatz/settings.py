@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     # 'grappelli',
+    'django_outbox',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,10 +135,25 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "")
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"), 
+    os.path.join(BASE_DIR, "static"),
 ]
 
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# settings for emails and notifications
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'app-mails')
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'codecatz3309@gmail.com'
+EMAIL_HOST_PASSWORD = 'slurp.dasher.output'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = 'Cats <codecatz3309@gmail.com>'
+
+LIST_OF_EMAIL_RECIPIENTS = ['test@gmail.com',]
+EMAIL_MESSAGE = {
+    'p': 'A new event has been requested. Please review and approve',
+    'a': 'Your requested event with Cats Catering has been approved',
+}
