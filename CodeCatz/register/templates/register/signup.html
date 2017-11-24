@@ -24,12 +24,14 @@
               {% endif %}
             {% endif %}
           </li>
-          
         {% endfor %}
+        {{ formset.management_form }}
+          {{ formset.as_ul }}
+        </ul>
         <li><div>
             <input type="submit" value="Register"/>
             <input type="hidden" name="next" value="{{ next }}" />
           </div></li>
-      </ul>
+      
     </form>
 {% endblock %}

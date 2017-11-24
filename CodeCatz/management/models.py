@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from django.contrib.auth.models import User
 from events.models import Event
 
 # Create your models here.
@@ -40,14 +39,15 @@ class Employee(Person):
 	"""
 	Model to represent an employee
 	"""
-	role = models.ManyToManyField(Role,blank=True)
+	#User = models.OneToOneField(User)
+	#role = models.ManyToManyField(Role,blank=True)
 	event = models.ManyToManyField(Event, help_text="Assign employee to event",blank=True)
 
 	def __str__(self):
 		return self.name
 
 
-class Customer(Person):
+#class Customer(Person):
 	"""
 	Model to represent users
 	"""

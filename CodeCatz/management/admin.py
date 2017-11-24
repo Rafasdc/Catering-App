@@ -5,4 +5,4 @@ from .models import *
 # Register your models here.
 admin.site.register(Employee)
 admin.site.register(Role)
-admin.site.register(Customer)
+#admin.site.register(Customer)
