@@ -16,15 +16,12 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)   
         formset = ProfileInlineFormset(request.POST)
-
         if form.is_valid():
             created_user = form.save(commit=False)
-            formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
-
+            formset = ProfileInlineFormset(request.POST, instance=created_user)
             if formset.is_valid():
                 created_user.save()
                 #formset.save()
-                
                 username = form.cleaned_data.get('username')
                 raw_password = form.cleaned_data.get('password1')
                 user = authenticate(username=username, password=raw_password)
@@ -39,6 +36,12 @@ def signup(request):
             "formset": formset,
         })
 
+@login_required
+def view_user(request, pk):
+    user = User.objects.get(pk=pk)
+    userProfile = UserProfile.objects.get(pk=pk)
+    context = {'user': user, 'userProfile': userProfile}
+    return render(request, 'register/view.html', context)
 
 
 @login_required
