@@ -39,9 +39,12 @@ def signup(request):
 @login_required
 def view_user(request, pk):
     user = User.objects.get(pk=pk)
-    userProfile = UserProfile.objects.get(pk=pk)
-    context = {'user': user, 'userProfile': userProfile}
-    return render(request, 'register/view.html', context)
+    if request.user.is_authenticated() and request.user.id == user.id:
+        userProfile = UserProfile.objects.get(pk=pk)
+        context = {'user': user, 'userProfile': userProfile}
+        return render(request, 'register/view.html', context)
+    else:
+        raise PermissionDenied
 
 
 @login_required
@@ -51,7 +54,6 @@ def edit_user(request, pk):
 
     ProfileInlineFormset = inlineformset_factory(User, UserProfile, fields=('phone', 'address'))
     formset = ProfileInlineFormset(instance=user)
-
     if request.user.is_authenticated() and request.user.id == user.id:
         if request.method == "POST":
             user_form = UserProfileForm(request.POST, request.FILES, instance=user)

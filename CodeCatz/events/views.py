@@ -6,6 +6,27 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from .forms import CreateEventForm
 from django.urls import reverse_lazy
+from django.core.exceptions import PermissionDenied
+
+class OwnershipMixin(object):
+    """
+    Mixin providing a dispatch overload that checks object ownership. is_staff and is_supervisor
+    are considered object owners as well. This mixin must be loaded before any class based views
+    are loaded for example class SomeView(OwnershipMixin, ListView)
+    """
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        self.args = args
+        self.kwargs = kwargs
+        # we need to manually "wake up" self.request.user which is still a SimpleLazyObject at this point
+        # and manually obtain this object's owner information.
+        current_user = self.request.user
+        object_owner = getattr(self.get_object(), 'user')
+
+        if current_user.id != object_owner.id: 
+            """and not current_user.is_superuser and not current_user.is_staff:"""
+            raise PermissionDenied
+        return super(OwnershipMixin, self).dispatch(request, *args, **kwargs)
 
 class EventDetailView(LoginRequiredMixin, TemplateView):
     template_name = 'events/events.html'
@@ -34,9 +55,11 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         return reverse_lazy('events')
 
 
-class EventEditView(LoginRequiredMixin, UpdateView):
+class EventEditView(OwnershipMixin, LoginRequiredMixin, UpdateView):
     """
     Update an event
     """
     model = Event
-    fields = ['event_type', 'numGuests', 'date', 'startTime', 'endDate', 'endTime', 'location', 'menu']
+    fields = ['event_type', 'numGuests', 'date', 'startTime', 'endDate', 'endTime', 'location', 'menu', 'status']
+
+

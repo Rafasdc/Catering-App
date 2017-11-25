@@ -10,6 +10,25 @@
     padding: 8px;
 }
 
+#events td warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+
+#events td error {
+    color: #D8000C;
+    background-color: #FFD2D2;
+}
+#events td success{
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+#events td info{
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+
+
 #events tr:nth-child(even){background-color: #f2f2f2;}
 
 #events tr:hover {background-color: #ddd;}

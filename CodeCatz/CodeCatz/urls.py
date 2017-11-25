@@ -32,9 +32,4 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/catering/', permanent=True)),
     ]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
-"""
-if settings.DEBUG:
-    urlpatterns += [url(r'^outbox/', include('django_outbox.urls')),
 
-]
-"""

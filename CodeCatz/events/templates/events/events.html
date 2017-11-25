@@ -19,6 +19,7 @@
             <th>End Time</th>
             <th>Location</th>
             <th>Menu</th>
+            <th>Status</th>
             <th>Edit</th>
           </tr>
           {% for event in events %}
@@ -30,6 +31,18 @@
             <td>{{ event.endTime }}</td>
             <td>{{ event.location }}</td>
             <td><a href="{{ event.menu.get_absolute_url }}">{{event.menu}}</a></td>
+            {% if event.status == "p" %}
+              <td> <warning>Pending</warning></td>
+            {% elif event.status == "a" %}
+              <td><success>Approved</success></td>
+            {% elif event.status == "n"%}
+              <td><info>Notified.</info></td>
+            {% elif event.status == "w"%}
+              <td><info>Preparing...</info></td>
+            {% elif event.status == "c"%} 
+              <td><success>Complete!</success></td>
+            {% endif %}
+
             <td><a href="{% url 'event-update' event.pk%}">Edit Event</a></td>
           </tr>
           {% endfor %}

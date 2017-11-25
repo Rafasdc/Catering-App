@@ -29,7 +29,7 @@ class Event(models.Model):
 		('p', 'Pending'),
 		('a', 'Approved'),
 		('n', 'Notified'),
-		('w', 'WorkingOn'),
+		('w', 'Working On'),
 		('c', 'Complete'),
 	)
 
