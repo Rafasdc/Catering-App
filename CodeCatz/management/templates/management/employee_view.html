@@ -2,11 +2,11 @@
 {% block content %}
 
 {% if employee %}
-<h1>{{employee.name}}</h1>
+<h1>{{employee.profile.user.first_name}}</h1>
 <h3>Employee details</h3><p>Edit</p>
     <ul>
-        <li>Address: {{ employee.address }}</li>
-        <li>Phone: {{ employee.phone }}</li>
+        <li>Address: {{ employee.profile.address }}</li>
+        <li>Phone: {{ employee.profile.phone }}</li>
     </ul>
 <h3>Assigned Events</h3><a href="{% url 'management:employee_assign' employee.id %}"><p>Edit</p></a>
 <div>
