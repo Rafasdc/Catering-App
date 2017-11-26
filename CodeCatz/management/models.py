@@ -32,7 +32,6 @@ class Employee(models.Model):
 	"""
 	profile = models.OneToOneField(UserProfile)
 	event = models.ManyToManyField(Event, help_text="Assign employee to event",blank=True)
-
 	"""
 	def create_profile(sender, **kwargs):
 		user = kwargs["instance"]

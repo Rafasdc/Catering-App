@@ -22,8 +22,8 @@ class OwnershipMixin(object):
         # and manually obtain this object's owner information.
         current_user = self.request.user
         object_owner = getattr(self.get_object(), 'user')
-
-        if current_user.id != object_owner.id: 
+            
+        if current_user.id != object_owner.id and not current_user.groups.filter(name='managers').exists(): 
             """and not current_user.is_superuser and not current_user.is_staff:"""
             raise PermissionDenied
         return super(OwnershipMixin, self).dispatch(request, *args, **kwargs)
@@ -59,7 +59,10 @@ class EventEditView(OwnershipMixin, LoginRequiredMixin, UpdateView):
     """
     Update an event
     """
+
     model = Event
     fields = ['event_type', 'numGuests', 'date', 'startTime', 'endDate', 'endTime', 'location', 'menu', 'status']
+
+
 
 

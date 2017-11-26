@@ -18,7 +18,7 @@
 					{% if employee_list %}
 					    <ul class="list-group list-group-flush">
 		    			{% for employee in employee_list %}
-		    			<li class="list-group-item"><a href="{% url 'management:employee' employee.id %}"></a></li>
+		    			<li class="list-group-item"><a href="{% url 'management:employee' employee.id %}">{{employee.profile.user.first_name}} {{employee.profile.user.last_name}}</a></li>
 		    			{% endfor %}
 		    			</ul>
 	    			{% else %}
@@ -35,7 +35,7 @@
 					{% if event_list %}
 					    <ul class="list-group list-group-flush">
 		    			{% for event in event_list %}
-		        		
+		        		<li class="list-group-item"><a href="{% url 'event-update' event.id %}">{{event}}</a></li>
 		    			{% endfor %}
 		    			</ul>
 	    			{% else %}
