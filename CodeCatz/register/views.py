@@ -49,11 +49,12 @@ def view_user(request, pk):
 @login_required
 def edit_user(request, pk):
     user = User.objects.get(pk=pk)
+    is_manager = request.user.groups.filter(name='managers').exists()
     user_form = UserProfileForm(instance=user)
 
     ProfileInlineFormset = inlineformset_factory(User, UserProfile, fields=('phone', 'address'))
     formset = ProfileInlineFormset(instance=user)
-    if request.user.is_authenticated() and request.user.id == user.id:
+    if (request.user.is_authenticated()) and (request.user.id == user.id or is_manager):
         if request.method == "POST":
             user_form = UserProfileForm(request.POST, request.FILES, instance=user)
             formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)

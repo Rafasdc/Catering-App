@@ -3,7 +3,7 @@
 
 {% if employee %}
 <h1>{{employee.profile.user.first_name}}</h1>
-<h3>Employee details</h3><p>Edit</p>
+<h3>Employee details</h3><a href="{% url 'edit_account' employee.profile.user.id %}">Edit</a>
     <ul>
         <li>Address: {{ employee.profile.address }}</li>
         <li>Phone: {{ employee.profile.phone }}</li>
