@@ -32,14 +32,7 @@ class Employee(models.Model):
 	"""
 	profile = models.OneToOneField(UserProfile)
 	event = models.ManyToManyField(Event, help_text="Assign employee to event",blank=True)
-	"""
-	def create_profile(sender, **kwargs):
-		user = kwargs["instance"]
-		if kwargs["created"]:
-			employee_profile = Employee(user=user)
-			employee_profile.save()
-	post_save.connect(create_profile, sender=User)
-	"""
+	wage_hour = models.DecimalField(max_digits=4, decimal_places=2, blank=False, default=15.30)
 
 	def __str__(self):
 		return self.profile.user.first_name
