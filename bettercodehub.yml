@@ -3,3 +3,4 @@ languages:
 - python
 exclude:
 - */migrations
+- catering/management/commands/
