@@ -3,4 +3,4 @@ languages:
 - python
 exclude:
 - */migrations
-- catering/management/commands/
+- CodeCatz/catering/management/commands/populate_db.py
