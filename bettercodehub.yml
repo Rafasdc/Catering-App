@@ -1,5 +1,7 @@
+exclude:
+- .*/migrations/.*
+- /CodeCatz/CodeCatz/settings.py
+- /CodeCatz/catering/management/commands/populate_db.py
 component_depth: 3
 languages:
 - python
-exclude:
-- */migrations

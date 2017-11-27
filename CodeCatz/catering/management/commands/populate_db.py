@@ -121,3 +121,33 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self._create_food_database()
 
+    from django.contrib.auth.models import Group, Permission
+    from django.contrib.contenttypes.models import ContentType
+    from django.db.models import Q
+
+    managers, created = Group.objects.get_or_create(name='managers')
+    
+    #permissions_qs = Permission.objects.filter(codename__contains='user')
+    permissions_qs = Permission.objects.filter(Q(codename__contains='user') | Q(codename__contains='event')
+        | Q(codename__contains='employee') | Q(codename__contains='role') | Q(codename__contains='category') 
+        | Q(codename__contains='ingredient') | Q(codename__contains='Ingredient Quantity') | Q(codename__contains='menu')
+        | Q(codename__contains='menu item') | Q(codename__contains='recipe') | Q(codename__contains='user profile') 
+        | Q(codename__contains='notify') | Q(codename__contains='schedule manager') | Q(codename__contains='session'))
+
+    managers.permissions = permissions_qs
+    managers.save() 
+
+    employees, created = Group.objects.get_or_create(name='employees')
+
+
+    from django.contrib.auth.models import User
+    from register.models import UserProfile
+    manager = User.objects.create_user(username='manager',
+                                 email='manager@catz.com',
+                                 password='manager123', first_name='First', last_name='Last')
+    manager_profile = UserProfile.objects.get(id=manager.id)
+    manager_profile.phone = '+999999999'
+    manager_profile.address = 'Managers Address'
+    manager_profile.save()
+    g = Group.objects.get(name='managers')
+    g.user_set.add(manager)

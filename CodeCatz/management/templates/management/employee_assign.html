@@ -4,11 +4,11 @@
 {% if employee %}
     <form action="" method="post">
         {% csrf_token %}
-        {{ form.event }}
+        {{formset}}
         <input type="submit" value="Submit" />
     </form>
 {% else %}
-    <p>No employees exist</p>
+    <p>No such employee exists</p>
 {% endif %}
 
 {% endblock %}
