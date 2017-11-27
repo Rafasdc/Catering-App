@@ -3,6 +3,7 @@ from .models import *
 from events.models import Event
 from django.forms.widgets import CheckboxSelectMultiple
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
 class EmployeeForm(forms.ModelForm):
     class Meta:
@@ -18,24 +19,16 @@ class AssignEmployeeEvent(forms.ModelForm):
 
 	def clean_event(self):
 		events = self.cleaned_data['event']
-		print(events)
 		for event1 in events:
 			for event2 in events:
-				print(event1.id)
-				print(event2.id)
-				#print(vars(event2))
+				#same date
 				if (event1.date == event2.date) and (event1.id != event2.id):
-					print(event1.startTime)
-					print(event2.startTime)
 					#events start at the same time
 					if (event1.startTime == event2.startTime):
-						#return False
-						raise ValidationError("Email already exists")
-						#raise Exception ("Event %s and %s overlap." (event1, event2))
+						raise ValidationError(_('Error: The events: %(event1)s and %(event2)s overelap.'), params={'event1': event1, 'event2': event2},)
 					#overlap in range
 					if (event1.startTime < event2.startTime) and (event1.endTime >= event2.endTime):
-						#raise Exception ("Event %s and %s overlap." (event1, event2))
-						raise ValidationError("Email already exists")
+						raise ValidationError(_('Error: The events: %(event1)s and %(event2)s overelap.'), params={'event1': event1, 'event2': event2},)
 		return events
 
 	def save(self, commit=True):

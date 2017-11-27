@@ -139,3 +139,15 @@ class Command(BaseCommand):
 
     employees, created = Group.objects.get_or_create(name='employees')
 
+
+    from django.contrib.auth.models import User
+    from register.models import UserProfile
+    manager = User.objects.create_user(username='manager',
+                                 email='manager@catz.com',
+                                 password='manager123', first_name='First', last_name='Last')
+    manager_profile = UserProfile.objects.get(id=manager.id)
+    manager_profile.phone = '+999999999'
+    manager_profile.address = 'Managers Address'
+    manager_profile.save()
+    g = Group.objects.get(name='managers')
+    g.user_set.add(manager)

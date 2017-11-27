@@ -6,13 +6,21 @@
 {% block content %}
 
 {% if employee %}
-<h1>{{employee.profile.user.first_name}}</h1>
-<h3>Employee details</h3><a href="{% url 'edit_account' employee.profile.user.id %}">Edit</a>
+<h1>{{employee.profile.user.first_name}} {{employee.profile.user.last_name}}</h1>
+<div>
+  <h3 style="display: inline" >Employee Details</h3> <a href="{% url 'edit_account' employee.profile.user.id %}">Edit</a>
+</div>
     <ul>
         <li>Address: {{ employee.profile.address }}</li>
         <li>Phone: {{ employee.profile.phone }}</li>
+        <li>Email : {{employee.profile.user.email}}</li>
+        <li>Wage: {{ employee.wage_hour}}</li>
+        <li>Hours Assigned: {{employee.hours}}</li>
+        <li>Payment Due: {{ employee.payment}} </li>
     </ul>
-<h3>Assigned Events</h3><a href="{% url 'management:employee_assign' employee.id %}"><p>Edit</p></a>
+<div>
+  <h3 style="display: inline">Assigned Events</h3> <a href="{% url 'management:employee_assign' employee.id %}">Edit</a>
+</div>
 <div>
 	{% if events %}
       <table id="events">
