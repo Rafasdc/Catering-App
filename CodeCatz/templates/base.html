@@ -25,7 +25,10 @@
 				<a href="{% url 'menu-items' %}">Menu</a>
 				<a href="{% url 'contact' %}">Contact</a>
 				{% if user.groups.all.0.name == 'managers' %}
-				<a href="{% url 'management:dashboard' %}">Management</a>
+					<a href="{% url 'management:dashboard' %}">Management</a>
+				{% endif %}
+				{% if user.groups.all.0.name == 'employees' %}
+					<a href="{% url 'management:employee_dashboard' %}">Employee</a>
 				{% endif %}
 				<a href="javascript:void(0);" class="icon" onclick="navOnOff()">&#9776;</a>
 			</nav>

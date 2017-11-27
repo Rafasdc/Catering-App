@@ -14,6 +14,12 @@ import sys
 def is_manager(user):
 	return user.groups.filter(name='managers').exists()
 
+def is_employee(user):
+	return (user.groups.filter(name='employees').exists())
+
+def is_manager_or_employee(user):
+	return (user.groups.filter(name='employees').exists()) or (user.groups.filter(name='managers').exists())
+
 @user_passes_test(is_manager, redirect_field_name = '/', login_url='/')
 def dashboard(request):
 	employee_list = Employee.objects.all()
@@ -21,7 +27,14 @@ def dashboard(request):
 	context = {'employee_list': employee_list, 'event_list': event_list}
 	return render(request, 'management/dashboard.html', context)
 
-@user_passes_test(is_manager, redirect_field_name = '/', login_url='/')
+@user_passes_test(is_employee, redirect_field_name = '/', login_url='/')
+def employee_dashboard(request):
+	print (request.user.id)
+	print (Employee.objects.get(profile_id=request.user.id))
+	employee_id = Employee.objects.get(profile_id=request.user.id).id
+	return HttpResponseRedirect(reverse('management:employee', kwargs={'employee_id':employee_id}))
+
+@user_passes_test(is_manager_or_employee, redirect_field_name = '/', login_url='/')
 def view_employee(request, employee_id):
 	employee = Employee.objects.get(id=employee_id)
 	employee.calculate_hours_worked()

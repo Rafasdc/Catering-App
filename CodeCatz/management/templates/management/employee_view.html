@@ -19,12 +19,13 @@
         <li>Payment Due: {{ employee.payment}} </li>
     </ul>
 <div>
-  <h3 style="display: inline">Assigned Events</h3> <a href="{% url 'management:employee_assign' employee.id %}">Edit</a>
+  <h3 style="display: inline">Assigned Events</h3> {% if user.groups.all.0.name == 'managers' %}<a href="{% url 'management:employee_assign' employee.id %}">Edit</a>{% endif %}
 </div>
 <div>
 	{% if events %}
       <table id="events">
           <tr>
+            <th>Customer</th>
             <th>Event Type</th>
             <th>Number of Guests</th>
             <th>Day</th>
@@ -38,6 +39,7 @@
           </tr>
           {% for event in events %}
           <tr>
+            <td>{{event.user.first_name}} {{event.user.last_name}}</td>
             <td>{{ event.event_type }}</td>
             <td>{{ event.numGuests }}</td>
             <td>{{ event.date }}</td>
