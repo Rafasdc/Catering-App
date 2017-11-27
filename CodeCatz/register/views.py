@@ -66,7 +66,7 @@ def edit_user(request, pk):
                 if formset.is_valid():
                     created_user.save()
                     formset.save()
-                    return HttpResponseRedirect('home')
+                    return HttpResponseRedirect(reverse('home'))
 
         return render(request, "register/account_update.html", {
             "noodle": pk,
