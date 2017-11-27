@@ -19,7 +19,7 @@
         <li>Payment Due: {{ employee.payment}} </li>
     </ul>
 <div>
-  <h3 style="display: inline">Assigned Events</h3> <a href="{% url 'management:employee_assign' employee.id %}">Edit</a>
+  <h3 style="display: inline">Assigned Events</h3> {% if user.groups.all.0.name == 'managers' %}<a href="{% url 'management:employee_assign' employee.id %}">Edit</a>{% endif %}
 </div>
 <div>
 	{% if events %}
