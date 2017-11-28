@@ -18,7 +18,11 @@
 					{% if employee_list %}
 					    <ul class="list-group list-group-flush">
 		    			{% for employee in employee_list %}
-		    			<li class="list-group-item"><a href="{% url 'management:employee' employee.id %}">{{employee.profile.user.first_name}} {{employee.profile.user.last_name}}</a></li>
+		    				<li class="list-group-item"><a href="{% url 'management:employee' employee.id %}">{{employee.profile.user.first_name}} {{employee.profile.user.last_name}}</a>
+		    				{% if employee.is_temp %}
+		    					<span class="badge badge-secondary">Temp</span>
+		    				{% endif %}
+		    				</li>
 		    			{% endfor %}
 		    			</ul>
 	    			{% else %}
@@ -64,7 +68,7 @@
 		    				<a href="{% url 'management:create_employee' %}" class="btn btn-primary">Create Employee</a>
 		    				<br>&nbsp;</br>
 		    				<a href="{% url 'management:event_price' %}" class="btn btn-primary">Event Price</a>
-		    				<!--<a href="#" class="btn btn-primary">Get Temp Employee</a> -->
+		    				<a href="{% url 'management:temp_employee' %}" class="btn btn-primary">Get Temp Employee</a> 
 		    			</div>
 	  				</div>
 				</div>	

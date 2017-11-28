@@ -6,10 +6,12 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from events.models import Event
+from register.models import *
 from .forms import *
+from .services import *
 from events.models import *
 from register.forms import *
-import sys
+import random
 
 def is_manager(user):
 	return user.groups.filter(name='managers').exists()
@@ -101,6 +103,29 @@ def payment_event(request):
 		event.calculate_suggested_price()
 	context = {'event_list' : event_list}
 	return render(request, 'management/event_payment.html', context)
+
+@user_passes_test(is_manager)
+def hire_temp_employee(request):
+		temp_1 = get_temp_employee()
+		temp_1_user = User()
+		temp_1_user.first_name = temp_1[0]['name']['first']
+		temp_1_user.last_name = temp_1[0]['name']['last']
+		temp_1_user.username = temp_1[0]['login']['username']
+		temp_1_user.password = 'catz1234'
+		temp_1_user.email = temp_1[0]['email']
+		temp_1_profile = UserProfile(user=temp_1_user)
+		temp_1_profile.phone = temp_1[0]['phone']
+		temp_1_employee = Employee(profile=temp_1_profile)
+		temp_1_employee.wage_hour = round(random.uniform(10,20),2)
+		context = {'temp_1_employee': temp_1_employee}
+		if request.method =='POST':
+			temp_1_user.save()
+			created_profile = UserProfile.objects.get(id=temp_1_user.pk)
+			created_profile.phone = temp_1_profile.phone
+			temp_1_employee.profile = created_profile
+			temp_1_employee.save()
+		return render(request, 'management/temp_employee.html', context)
+
 
 	
 

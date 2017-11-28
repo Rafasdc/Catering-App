@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/events.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div>
+  <h1> The following temp employees are available: </h1>
+  <h3>Refresh to request new employees </h3>
+	{% if temp_1_employee %}
+      <table id="events">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Wage</th>
+          </tr>
+          
+          <tr>
+            <td>{{temp_1_employee.profile.user.first_name}} {{temp_1_employee.profile.user.last_name}}</td>
+            <td>{{ temp_1_employee.profile.user.email }}</td>
+            <td>{{temp_1_employee.profile.phone}}</td>
+            <td>{{temp_1_employee.wage_hour}}</td>
+          </tr>
+      </table>
+      <form method="POST" action="">
+        {% csrf_token %}
+        <button type="submit">Hire!</button>
+      </form>
+
+      {% else %}
+        <p>There are no events.</p>
+      {% endif %}
+</div>
+
+
+{% endblock %}
