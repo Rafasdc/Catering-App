@@ -22,6 +22,7 @@
             <th>Menu</th>
             <th>Status</th>
             <th>Edit</th>
+            <th>Cancel</th>
           </tr>
           {% for event in events %}
           <tr>
@@ -45,7 +46,8 @@
               <td><success>Complete!</success></td>
             {% endif %}
 
-            <td><a href="{% url 'event-update' event.pk%}">Edit Event</a></td>
+            <td><a href="{% url 'event-update' event.pk %}">Edit Event</a></td>
+            <td><a href="{% url 'event-delete' event.pk  %}">Cancel Event</a></td>
           </tr>
           {% endfor %}
       </table>

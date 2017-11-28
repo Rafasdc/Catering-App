@@ -39,7 +39,7 @@
 					{% if event_list %}
 					    <ul class="list-group list-group-flush">
 		    			{% for event in event_list %}
-		        		<li class="list-group-item"><a href="{% url 'event-update' event.id %}">{{event}}</a>
+		        		<li class="list-group-item"><a href="{% url 'manager-event-update' event.id %}">{{event}}</a>
 		        		{% if event.status == "p" %}
 			              <span class="badge badge-warning">Pending</span>
 			            {% elif event.status == "a" %}

@@ -7,7 +7,7 @@ import datetime
 class CreateEventForm(forms.ModelForm):
     class Meta:
         model = Event
-        exclude = ['status', 'user']
+        exclude = ['status', 'user', 'menu_cost', 'employee_cost', 'suggested_price']
 
     def clean(self):
         cleaned_data = super(CreateEventForm, self).clean()

@@ -2,18 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 import datetime
-<<<<<<< HEAD
-from django.conf import settings
-
 from django.db.models import signals
 from django.core.mail import send_mail
 from django.dispatch import receiver
-=======
+import datetime
 import management
 import decimal
-
->>>>>>> 5c4fd0c5a519739bec9096ad496be04f4ced9504
-
 from menu.models import Menu
 
 def default_start_day():
@@ -60,7 +54,7 @@ class Event(models.Model):
 		return reverse('events')
 
 	class Meta:
-    		ordering = ["date"]
+		ordering = ["date"]
 		permissions = (("can_mark_approved", "Set event as approved."),)  
 
 		

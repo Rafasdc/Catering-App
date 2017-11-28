@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title%}Events {% endblock %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/forms.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+Hey, are you sure you want to cancel {{ object }}?
+<form method="post" class="form-view">
+    {% csrf_token %}
+    <ul>
+      {% for field in form %}
+        <li>
+          
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            {% for error in field.errors %}
+              <span class='error-span'>{{error}}</span>
+            {% endfor %}
+          {% else %}
+            {% if field.help_text %}
+              <span>{{ field.help_text|safe }}</span>
+            {% endif %}
+          {% endif %}
+        </li>
+        
+      {% endfor %}
+      <li><div>
+          <input type="submit" value="Cancel"/>
+          <input type="hidden" name="next" value="{{ next }}" />
+        </div></li>
+    </ul>
+  </form>
+
+{% endblock %}
