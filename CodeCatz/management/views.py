@@ -91,6 +91,21 @@ def create_employee(request):
             "profile_form": profile_form,
         })
 
+@user_passes_test(is_manager, redirect_field_name = '/', login_url='/')
+def edit_wage(request, employee_id):
+	employee = Employee.objects.get(id=employee_id)
+	if request.method =='POST':
+		form = EmployeeForm(request.POST)
+		if form.is_valid():
+			employee = Employee.objects.get(id=employee_id)
+			employee.wage_hour = form.cleaned_data.get('wage_hour')
+			employee.save()
+			return redirect(reverse('management:employee', kwargs={'employee_id': employee_id}))
+	else:
+		form = EmployeeForm()
+	context = {'form': form}
+	return render(request, 'management/wage_edit.html', context)
+
 @user_passes_test(is_manager)
 def payment_event(request):
 	"""
@@ -106,27 +121,28 @@ def payment_event(request):
 
 @user_passes_test(is_manager)
 def hire_temp_employee(request):
-		temp_1 = get_temp_employee()
-		temp_1_user = User()
-		temp_1_user.first_name = temp_1[0]['name']['first']
-		temp_1_user.last_name = temp_1[0]['name']['last']
-		temp_1_user.username = temp_1[0]['login']['username']
-		temp_1_user.password = 'catz1234'
-		temp_1_user.email = temp_1[0]['email']
-		temp_1_profile = UserProfile(user=temp_1_user)
-		temp_1_profile.phone = temp_1[0]['phone']
-		temp_1_employee = Employee(profile=temp_1_profile)
-		temp_1_employee.wage_hour = round(random.uniform(10,20),2)
-		context = {'temp_1_employee': temp_1_employee}
-		if request.method =='POST':
-			temp_1_user.save()
-			created_profile = UserProfile.objects.get(id=temp_1_user.pk)
-			created_profile.phone = temp_1_profile.phone
-			temp_1_employee.profile = created_profile
-			temp_1_employee.save()
+		temp = get_temp_employee()
+		temp_user = User()
+		temp_user.first_name = (temp[0]['name']['first']).title()
+		temp_user.last_name = temp[0]['name']['last'].title()
+		temp_user.username = temp[0]['login']['username']
+		temp_user.password = 'catz1234'
+		temp_user.email = temp[0]['email']
+		temp_profile = UserProfile(user=temp_user)
+		print(temp[0]['phone'])
+		temp_profile.phone = temp[0]['phone']
+		temp_employee = Employee(profile=temp_profile)
+		temp_employee.is_temp = True
+		temp_employee.wage_hour = round(random.uniform(10,20),2)
+		g = Group.objects.get(name='employees') 
+		temp_user.save()
+		g.user_set.add(temp_user)
+		created_profile = UserProfile.objects.get(id=temp_user.pk)
+		created_profile.phone = temp_profile.phone
+		created_profile.save()
+		temp_employee.profile = created_profile
+		temp_employee.save()
+		context = {'temp_employee': temp_employee}
 		return render(request, 'management/temp_employee.html', context)
-
-
-	
 
 

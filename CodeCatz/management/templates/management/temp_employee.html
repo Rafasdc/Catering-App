@@ -5,33 +5,30 @@
 {% endblock %}
 {% block content %}
 <div>
-  <h1> The following temp employees are available: </h1>
-  <h3>Refresh to request new employees </h3>
-	{% if temp_1_employee %}
+  <h1> The following temp employee was hired </h1>
+  <h3>Refresh to hire another temp employee </h3>
+	{% if temp_employee %}
       <table id="events">
           <tr>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Wage</th>
+            <th>Requested Wage</th>
           </tr>
           
           <tr>
-            <td>{{temp_1_employee.profile.user.first_name}} {{temp_1_employee.profile.user.last_name}}</td>
-            <td>{{ temp_1_employee.profile.user.email }}</td>
-            <td>{{temp_1_employee.profile.phone}}</td>
-            <td>{{temp_1_employee.wage_hour}}</td>
+            <td>{{temp_employee.profile.user.first_name}} {{temp_employee.profile.user.last_name}}</td>
+            <td>{{ temp_employee.profile.user.email }}</td>
+            <td>{{temp_employee.profile.phone}}</td>
+            <td>{{temp_employee.wage_hour}}</td>
           </tr>
       </table>
-      <form method="POST" action="">
-        {% csrf_token %}
-        <button type="submit">Hire!</button>
-      </form>
-
       {% else %}
-        <p>There are no events.</p>
+        <p>Failed to get temp employee.</p>
       {% endif %}
 </div>
 
 
 {% endblock %}
+
+^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][0‌​2-8]1|[2-9][02-8][02‌​-9])\s*)|([2-9]1‌​[02-9]|[2-9][02-8]1|‌​[2-9][02-8][02-9]))\‌​s*(?:[.-]\s*)?)?([2-‌​9]1[02-9]|[2-9][02-9‌​]1|[2-9][02-9]{2})\s‌​*(?:[.-]\s*)?([0-9]{‌​4})$

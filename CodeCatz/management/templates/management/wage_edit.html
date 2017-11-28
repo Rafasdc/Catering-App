@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
           <form method="POST" class="form-view">
-            {% csrf_token %} {{ noodle_form.as_ul }}
-            {{ formset.management_form }}
-                {{ formset.as_ul }}
+            {% csrf_token %}
+            {{form}}
             <input type="submit" value="Submit"/>
             </form>
 

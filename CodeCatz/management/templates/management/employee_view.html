@@ -14,7 +14,7 @@
         <li>Address: {{ employee.profile.address }}</li>
         <li>Phone: {{ employee.profile.phone }}</li>
         <li>Email : {{employee.profile.user.email}}</li>
-        <li>Wage: {{ employee.wage_hour}}</li>
+        <div><li style="display: inline">Wage: {{ employee.wage_hour}}</li> {% if user.groups.all.0.name == 'managers' %}<a href="{% url 'management:edit_wage' employee.id %}">Edit</a>{% endif %}</div>
         <li>Hours Assigned: {{employee.hours}}</li>
         <li>Payment Due: {{ employee.payment}} </li>
     </ul>

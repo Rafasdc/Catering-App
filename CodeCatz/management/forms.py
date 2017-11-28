@@ -8,7 +8,7 @@ from django.utils.translation import gettext as _
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['profile', 'wage_hour']
+        fields = ['wage_hour']
 
 class AssignEmployeeEvent(forms.ModelForm):
 	class Meta:
