@@ -32,11 +32,12 @@ class Employee(models.Model):
 	"""
 	Model to represent an employee
 	"""
-	profile = models.OneToOneField(UserProfile)
+	profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
 	event = models.ManyToManyField(Event, help_text="Assign employee to event",blank=True)
 	wage_hour = models.DecimalField(max_digits=4, decimal_places=2, blank=False, default=15.30)
 	hours = models.DecimalField(max_digits=10, decimal_places=2, blank=False, default=0.00)
 	payment = models.DecimalField(max_digits=10, decimal_places=2, blank=False, default = 0.00)
+	is_temp = models.BooleanField(default=False)
 
 	def calculate_hours_worked(self):
 		hours_worked_dec = 0
