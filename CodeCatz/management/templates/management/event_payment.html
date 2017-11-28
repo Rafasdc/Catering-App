@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/events.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div>
+	{% if event_list %}
+      <table id="events">
+          <tr>
+            <th>Customer</th>
+            <th>Event Type</th>
+            <th>Number of Guests</th>
+            <th>Day</th>
+            <th>Menu Cost</th>
+            <th>Employee Cost</th>
+            <th>Suggested Price</th>
+          </tr>
+          {% for event in event_list %}
+          <tr>
+            <td>{{event.user.first_name}} {{event.user.last_name}}</td>
+            <td>{{ event.event_type }}</td>
+            <td>{{ event.numGuests }}</td>
+            <td>{{ event.date }}</td>
+            <td>{{ event.menu_cost }}</td>
+            <td>{{ event.employee_cost }}</td>
+            <td>{{ event.suggested_price }}</td>
+          </tr>
+          {% endfor %}
+      </table>
+
+      {% else %}
+        <p>There are no events.</p>
+      {% endif %}
+</div>
+
+
+{% endblock %}

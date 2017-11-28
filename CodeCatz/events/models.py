@@ -2,11 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 import datetime
+<<<<<<< HEAD
 from django.conf import settings
 
 from django.db.models import signals
 from django.core.mail import send_mail
 from django.dispatch import receiver
+=======
+import management
+import decimal
+
+>>>>>>> 5c4fd0c5a519739bec9096ad496be04f4ced9504
 
 from menu.models import Menu
 
@@ -32,6 +38,9 @@ class Event(models.Model):
 	endTime = models.TimeField(default = datetime.time(22, 00), help_text="Enter end time.")
 	location = models.CharField(max_length=255, help_text="Enter location")
 	menu = models.ForeignKey(Menu, null=True, blank=True, help_text="Choose a menu")
+	menu_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+	employee_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+	suggested_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
 	EVENT_STATUS = (
 		('p', 'Pending'),
@@ -51,7 +60,41 @@ class Event(models.Model):
 		return reverse('events')
 
 	class Meta:
-		ordering = ["date"]
+    		ordering = ["date"]
 		permissions = (("can_mark_approved", "Set event as approved."),)  
 
 		
+	def calculate_menu_cost(self):
+		total_cost = 0
+		print(self.menu)
+		for menu_items in self.menu.menu_items.all():
+			for recipe in menu_items.menu_constituents.all():
+				total_cost += recipe.cost
+		self.menu_cost = round(total_cost, 2)
+		self.save()
+
+	def calculate_employee_cost(self):
+		total_cost = 0
+		employee_list = management.models.Employee.objects.all()
+		for employee in employee_list:
+			for employee_events in employee.event.all():
+				if employee_events.id == self.id:
+					time_start = datetime.datetime.combine(self.date, self.startTime)
+					time_end = datetime.datetime.combine(self.endDate, self.endTime)
+					hours_worked = time_end - time_start
+					hours_worked_dec = hours_worked.total_seconds() / 3600
+					employee_cost = employee.wage_hour * decimal.Decimal(hours_worked_dec)
+					total_cost += employee_cost
+		self.employee_cost = round(total_cost, 2)
+		self.save()
+
+	def calculate_suggested_price(self):
+		total_cost = self.menu_cost + self.employee_cost
+		#30% profit
+		suggested_price = total_cost * decimal.Decimal(1.30)
+		self.suggested_price = round(suggested_price,2)
+		self.save()
+
+
+
+

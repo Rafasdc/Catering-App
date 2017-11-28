@@ -1,19 +1,12 @@
 from django.db import models
-from django.core.validators import RegexValidator
+from django.contrib.auth.models import User
 from events.models import Event
+from register.models import *
+import datetime
+import decimal
 
 # Create your models here.
-class Person(models.Model):
-	"""
-	Model for all employees (and customers?)
-	"""
-	name = models.CharField(max_length=50, help_text="Enter name", blank=False)
-	address = models.CharField(max_length=200, help_text="Enter address", blank=False)
-	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-	phone = models.CharField(help_text="Enter phone number",validators=[phone_regex], max_length=15, blank=False) # validators should be a list
 
-	class Meta:
-		abstract = True
 
 
 class Role(models.Model):
@@ -35,17 +28,35 @@ class Role(models.Model):
 	def __str__(self):
 		return self.role
 
-class Employee(Person):
+class Employee(models.Model):
 	"""
 	Model to represent an employee
 	"""
-	#User = models.OneToOneField(User)
-	#role = models.ManyToManyField(Role,blank=True)
+	profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
 	event = models.ManyToManyField(Event, help_text="Assign employee to event",blank=True)
+	wage_hour = models.DecimalField(max_digits=4, decimal_places=2, blank=False, default=15.30)
+	hours = models.DecimalField(max_digits=10, decimal_places=2, blank=False, default=0.00)
+	payment = models.DecimalField(max_digits=10, decimal_places=2, blank=False, default = 0.00)
+	is_temp = models.BooleanField(default=False)
+
+	def calculate_hours_worked(self):
+		hours_worked_dec = 0
+		for events_worked in self.event.all():
+			time_start = datetime.datetime.combine(events_worked.date, events_worked.startTime)
+			time_end = datetime.datetime.combine(events_worked.endDate, events_worked.endTime)
+			hours_worked = time_end - time_start
+			hours_worked_dec += hours_worked.total_seconds() / 3600
+		self.hours = round(hours_worked_dec, 2)
+		self.save()
+			
+	def calculate_payment(self):
+		payment = decimal.Decimal(self.hours) * self.wage_hour
+		self.payment = round(payment, 2)
+		self.save()
+
 
 	def __str__(self):
-		return self.name
-
+		return self.profile.user.first_name
 
 #class Customer(Person):
 	"""

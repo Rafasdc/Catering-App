@@ -1,19 +1,73 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/events.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
 {% block content %}
 
 {% if employee %}
-<h1>{{employee.name}}</h1>
-<h3>Employee details</h3><p>Edit</p>
-    <ul>
-        <li>Address: {{ employee.address }}</li>
-        <li>Phone: {{ employee.phone }}</li>
-    </ul>
-<h3>Assigned Events</h3><a href="{% url 'management:employee_assign' employee.id %}"><p>Edit</p></a>
+<h1>{{employee.profile.user.first_name}} {{employee.profile.user.last_name}}</h1>
 <div>
-    {% for event in events %}
-    <hr>
-    <p>{{event}}</p>
-    {% endfor %}
+  <h3 style="display: inline" >Employee Details</h3> <a href="{% url 'edit_account' employee.profile.user.id %}">Edit</a>
+</div>
+    <ul>
+        <li>Address: {{ employee.profile.address }}</li>
+        <li>Phone: {{ employee.profile.phone }}</li>
+        <li>Email : {{employee.profile.user.email}}</li>
+        <div><li style="display: inline">Wage: {{ employee.wage_hour}}</li> {% if user.groups.all.0.name == 'managers' %}<a href="{% url 'management:edit_wage' employee.id %}">Edit</a>{% endif %}</div>
+        <li>Hours Assigned: {{employee.hours}}</li>
+        <li>Payment Due: {{ employee.payment}} </li>
+    </ul>
+<div>
+  <h3 style="display: inline">Assigned Events</h3> {% if user.groups.all.0.name == 'managers' %}<a href="{% url 'management:employee_assign' employee.id %}">Edit</a>{% endif %}
+</div>
+<div>
+	{% if events %}
+      <table id="events">
+          <tr>
+            <th>Customer</th>
+            <th>Event Type</th>
+            <th>Number of Guests</th>
+            <th>Day</th>
+            <th>Start Time</th>
+            <th>End Date</th>
+            <th>End Time</th>
+            <th>Location</th>
+            <th>Menu</th>
+            <th>Status</th>
+            <th>Edit</th>
+          </tr>
+          {% for event in events %}
+          <tr>
+            <td>{{event.user.first_name}} {{event.user.last_name}}</td>
+            <td>{{ event.event_type }}</td>
+            <td>{{ event.numGuests }}</td>
+            <td>{{ event.date }}</td>
+            <td>{{ event.startTime }}</td>
+            <td>{{ event.endDate }}</td>
+            <td>{{ event.endTime }}</td>
+            <td>{{ event.location }}</td>
+            <td><a href="{{ event.menu.get_absolute_url }}">{{event.menu}}</a></td>
+            {% if event.status == "p" %}
+              <td> <warning>Pending</warning></td>
+            {% elif event.status == "a" %}
+              <td><success>Approved</success></td>
+            {% elif event.status == "n"%}
+              <td><info>Notified.</info></td>
+            {% elif event.status == "w"%}
+              <td><info>Preparing...</info></td>
+            {% elif event.status == "c"%} 
+              <td><success>Complete!</success></td>
+            {% endif %}
+
+            <td><a href="{% url 'event-update' event.pk%}">Edit Event</a></td>
+          </tr>
+          {% endfor %}
+      </table>
+
+      {% else %}
+        <p>There are no events.</p>
+      {% endif %}
 </div>
 {% else %}
     <p>No such employee exist</p>

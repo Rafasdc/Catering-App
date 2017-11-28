@@ -2,7 +2,13 @@ from django import forms
 from .models import *
 from events.models import Event
 from django.forms.widgets import CheckboxSelectMultiple
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ['wage_hour']
 
 class AssignEmployeeEvent(forms.ModelForm):
 	class Meta:
@@ -11,14 +17,19 @@ class AssignEmployeeEvent(forms.ModelForm):
 
 	event = forms.ModelMultipleChoiceField(queryset=Event.objects.all(), required=False, widget=CheckboxSelectMultiple)
 
-	"""
-	def __init__(self, *args, **kwargs):
-		if kwargs.get('instance'):
-			initial = kwargs.setdefault('initial', {})
-			initial['event'] = [t.pk for t in kwargs['instance'].event_set.all()]
-			empty_label=" "
-		forms.ModelForm.__init__(self, *args, **kwargs)
-	"""
+	def clean_event(self):
+		events = self.cleaned_data['event']
+		for event1 in events:
+			for event2 in events:
+				#same date
+				if (event1.date == event2.date) and (event1.id != event2.id):
+					#events start at the same time
+					if (event1.startTime == event2.startTime):
+						raise ValidationError(_('Error: The events: %(event1)s and %(event2)s overelap.'), params={'event1': event1, 'event2': event2},)
+					#overlap in range
+					if (event1.startTime < event2.startTime) and (event1.endTime >= event2.endTime):
+						raise ValidationError(_('Error: The events: %(event1)s and %(event2)s overelap.'), params={'event1': event1, 'event2': event2},)
+		return events
 
 	def save(self, commit=True):
 		instance = forms.ModelForm.save(self, False)
@@ -64,49 +75,3 @@ class AssignEmployeeEventRole(forms.ModelForm):
 			self.save_m2m()
 
 		return instance
-'''
-
-class PizzaForm(forms.ModelForm):
-    class Meta:
-        model = Pizza
-
-    # Representing the many to many related field in Pizza
-    toppings = forms.ModelMultipleChoiceField(queryset=Topping.objects.all())
-
-    # Overriding __init__ here allows us to provide initial
-    # data for 'toppings' field
-    def __init__(self, *args, **kwargs):
-        # Only in case we build the form from an instance
-        # (otherwise, 'toppings' list should be empty)
-        if kwargs.get('instance'):
-            # We get the 'initial' keyword argument or initialize it
-            # as a dict if it didn't exist.                
-            initial = kwargs.setdefault('initial', {})
-            # The widget for a ModelMultipleChoiceField expects
-            # a list of primary key for the selected data.
-            initial['toppings'] = [t.pk for t in kwargs['instance'].topping_set.all()]
-
-        forms.ModelForm.__init__(self, *args, **kwargs)
-
-    # Overriding save allows us to process the value of 'toppings' field    
-    def save(self, commit=True):
-        # Get the unsave Pizza instance
-        instance = forms.ModelForm.save(self, False)
-
-        # Prepare a 'save_m2m' method for the form,
-        old_save_m2m = self.save_m2m
-        def save_m2m():
-           old_save_m2m()
-           # This is where we actually link the pizza with toppings
-           instance.topping_set.clear()
-           for topping in self.cleaned_data['toppings']:
-               instance.topping_set.add(topping)
-        self.save_m2m = save_m2m
-
-        # Do we need to save all changes now?
-        if commit:
-            instance.save()
-            self.save_m2m()
-
-        return instance
-'''
