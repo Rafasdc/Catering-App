@@ -2,11 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 import datetime
+from django.db.models import signals
+from django.core.mail import send_mail
+from django.dispatch import receiver
+import datetime
 import management
 import decimal
-
-
 from menu.models import Menu
+
+def default_start_day():
+    	return datetime.datetime.today() + datetime.timedelta(days=7)
 
 class Event(models.Model):
 
@@ -21,9 +26,9 @@ class Event(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	event_type = models.CharField(max_length=50, choices=EVENT_TYPE, blank=True, default='Social', help_text='Event type.')
 	numGuests = models.IntegerField('Number of Guests', help_text="Enter the number of guests.")
-	date = models.DateField(default = datetime.datetime.today,help_text="Enter date of event.")
-	startTime = models.TimeField(default=datetime.datetime.now, help_text="Specify start time of event.")
-	endDate = models.DateField(default = datetime.datetime.today, help_text="If event goes into next day, please edit.")
+	date = models.DateField(default = default_start_day,help_text="Enter date of event.")
+	startTime = models.TimeField(default=datetime.time(16,00), help_text="Specify start time of event.")
+	endDate = models.DateField(default = default_start_day, help_text="If event goes into next day, please edit.")
 	endTime = models.TimeField(default = datetime.time(22, 00), help_text="Enter end time.")
 	location = models.CharField(max_length=255, help_text="Enter location")
 	menu = models.ForeignKey(Menu, null=True, blank=True, help_text="Choose a menu")
@@ -48,6 +53,11 @@ class Event(models.Model):
 	def get_absolute_url(self):
 		return reverse('events')
 
+	class Meta:
+		ordering = ["date"]
+		permissions = (("can_mark_approved", "Set event as approved."),)  
+
+		
 	def calculate_menu_cost(self):
 		total_cost = 0
 		print(self.menu)

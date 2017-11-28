@@ -1,14 +1,12 @@
 {% extends "base.html" %}
+{% block title%}Events {% endblock %}
 {% load staticfiles %}
 {% block extraStatic %}
 <link href="{% static 'css/forms.css' %}?{% cache_bust %}" rel="stylesheet">
 {% endblock %}
-{% block title%}
-Event
-{% endblock %}
-
 {% block content %}
-<h1>Event Form</h1>
+
+Hey, are you sure you want to cancel {{ object }}?
 <form method="post" class="form-view">
     {% csrf_token %}
     <ul>
@@ -30,15 +28,10 @@ Event
         
       {% endfor %}
       <li><div>
-          <input type="submit" value="Submit"/>
+          <input type="submit" value="Cancel"/>
           <input type="hidden" name="next" value="{{ next }}" />
         </div></li>
     </ul>
   </form>
-{% endblock %}
 
-{% block footer %}
-<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-
-{{ form.media }}
 {% endblock %}

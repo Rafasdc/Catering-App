@@ -14,7 +14,7 @@
         <li>Address: {{ employee.profile.address }}</li>
         <li>Phone: {{ employee.profile.phone }}</li>
         <li>Email : {{employee.profile.user.email}}</li>
-        <li>Wage: {{ employee.wage_hour}}</li>
+        <div><li style="display: inline">Wage: {{ employee.wage_hour}}</li> {% if user.groups.all.0.name == 'managers' %}<a href="{% url 'management:edit_wage' employee.id %}">Edit</a>{% endif %}</div>
         <li>Hours Assigned: {{employee.hours}}</li>
         <li>Payment Due: {{ employee.payment}} </li>
     </ul>
@@ -35,7 +35,6 @@
             <th>Location</th>
             <th>Menu</th>
             <th>Status</th>
-            <th>Edit</th>
           </tr>
           {% for event in events %}
           <tr>
@@ -59,8 +58,6 @@
             {% elif event.status == "c"%} 
               <td><success>Complete!</success></td>
             {% endif %}
-
-            <td><a href="{% url 'event-update' event.pk%}">Edit Event</a></td>
           </tr>
           {% endfor %}
       </table>

@@ -6,7 +6,8 @@ from django.core import mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
@@ -39,3 +40,14 @@ class EmailView(FormView):
 			return HttpResponseRedirect(self.get_success_url())
 		except mail.BadHeaderError:
 			return HttpResponse('Invalid header found.')
+
+
+class ScheduleView(LoginRequiredMixin,ListView):
+    #permission_required = 'catalog.can_mark_returned'
+    model = Event
+    template_name = 'scheduler/events.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Event.objects.all().order_by('date')
+

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block extraStatic %}
+<link href="{% static 'css/forms.css' %}?{% cache_bust %}" rel="stylesheet">
+<link href="{% static 'css/events.css' %}?{% cache_bust %}" rel="stylesheet">
+{% endblock %}
+{% block title%}
+Event
+{% endblock %}
+
+{% block content %}
+{% if object.endDate < time.date %}
+<p>Event is past</p>
+<p><a href="{% url 'manager-event-delete' object.pk %}">Delete Event</a></p>
+{% else %}
+<h1>Manager Event Form</h1>
+{% if event %}
+<table id="events">
+    <tr>
+      <th>Event Type</th>
+      <th>Number of Guests</th>
+      <th>Day</th>
+      <th>Start Time</th>
+      <th>End Date</th>
+      <th>End Time</th>
+      <th>Location</th>
+      <th>Menu</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td>{{ event.event_type }}</td>
+      <td>{{ event.numGuests }}</td>
+      <td>{{ event.date }}</td>
+      <td>{{ event.startTime }}</td>
+      <td> {{ event.endDate }}</td>
+      <td>{{ event.endTime }}</td>
+      <td>{{ event.location }}</td>
+      <td><a href="{{ event.menu.get_absolute_url }}">{{event.menu}}</a></td>
+      {% if event.status == "p" %}
+        <td> <warning>Pending</warning></td>
+      {% elif event.status == "a" %}
+        <td><success>Approved</success></td>
+      {% elif event.status == "n"%}
+        <td><info>Notified.</info></td>
+      {% elif event.status == "w"%}
+        <td><info>Preparing...</info></td>
+      {% elif event.status == "c"%} 
+        <td><success>Complete!</success></td>
+      {% endif %}
+    </tr>
+</table>
+{% endif %}
+<form method="post" class="form-view">
+    {% csrf_token %}
+    <ul>
+      {% for field in form %}
+        <li>
+          
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            {% for error in field.errors %}
+              <span class='error-span'>{{error}}</span>
+            {% endfor %}
+          {% else %}
+            {% if field.help_text %}
+              <span>{{ field.help_text|safe }}</span>
+            {% endif %}
+          {% endif %}
+        </li>
+        
+      {% endfor %}
+      <li><div>
+          <input type="submit" value="Submit"/>
+          <input type="hidden" name="next" value="{{ next }}" />
+        </div></li>
+    </ul>
+  </form>
+  {% endif %}
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form.media }}
+{% endblock %}

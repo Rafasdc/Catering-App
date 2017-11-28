@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import djcelery
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,12 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catering.apps.CateringConfig',
     'scheduler.apps.SchedulerConfig',
-    #'employee.apps.EmployeeConfig',
     'management.apps.ManagementConfig',
     'register.apps.RegisterConfig',
     'events.apps.EventsConfig',
     'menu.apps.MenuConfig',
-
 ]
 
 MIDDLEWARE = [
