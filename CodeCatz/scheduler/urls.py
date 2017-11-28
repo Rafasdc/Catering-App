@@ -6,4 +6,5 @@ from . import views
 urlpatterns = [
 		url(r'^contact/$', views.EmailView.as_view(), name='contact'),
 		url(r'^success/$', TemplateView.as_view(template_name="scheduler/success.html"), name='contact-success'),
+		url(r'^event_list/$', views.ScheduleView.as_view(), name='event-list'),
 ]

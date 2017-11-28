@@ -8,6 +8,8 @@ from .forms import CreateEventForm
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 
+import datetime
+
 class OwnershipMixin(object):
     """
     Mixin providing a dispatch overload that checks object ownership. is_staff and is_supervisor
@@ -45,7 +47,8 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     form_class = CreateEventForm
 
     def form_valid(self, form):
-        form.save(self.request.user)
+        obj = form.save(commit=False)
+        obj.user = self.request.user
         return super(EventCreateView, self).form_valid(form)
 
     def get_queryset(self):
@@ -61,5 +64,9 @@ class EventEditView(OwnershipMixin, LoginRequiredMixin, UpdateView):
     """
     model = Event
     fields = ['event_type', 'numGuests', 'date', 'startTime', 'endDate', 'endTime', 'location', 'menu', 'status']
+    template_name = "events/event_update.html"
 
-
+    def get_context_data(self, **kwargs):
+        context = super(EventEditView, self).get_context_data(**kwargs)
+        context['time'] = datetime.datetime.now() + datetime.timedelta(days=7)
+        return context

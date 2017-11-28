@@ -5,11 +5,9 @@
 <link href="{% static 'css/events.css' %}?{% cache_bust %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-
-
-		<h1>Events</h1>
+<h1>Events</h1>
     {% if user.is_authenticated %}
-      {% if events %}
+      {% if event_list %}
       <table id="events">
           <tr>
             <th>Event Type</th>
@@ -23,7 +21,7 @@
             <th>Status</th>
             <th>Edit</th>
           </tr>
-          {% for event in events %}
+          {% for event in event_list %}
           <tr>
             <td>{{ event.event_type }}</td>
             <td>{{ event.numGuests }}</td>

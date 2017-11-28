@@ -8,6 +8,9 @@ Event
 {% endblock %}
 
 {% block content %}
+{% if object.date < time.date %}
+<p>Past event edit time.</p>
+{% else %}
 <h1>Event Form</h1>
 <form method="post" class="form-view">
     {% csrf_token %}
@@ -35,6 +38,7 @@ Event
         </div></li>
     </ul>
   </form>
+  {% endif %}
 {% endblock %}
 
 {% block footer %}
