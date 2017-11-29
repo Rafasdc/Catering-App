@@ -55,8 +55,11 @@ class Event(models.Model):
 
 	class Meta:
 		ordering = ["date"]
-		permissions = (("can_mark_approved", "Set event as approved."),)  
+		permissions = (("can_mark_approved", "Set event as approved."),) 
 
+	@property
+	def getEndDate(self):
+		return self.endDate 
 		
 	def calculate_menu_cost(self):
 		total_cost = 0
