@@ -5,10 +5,6 @@ from register.models import *
 import datetime
 import decimal
 
-# Create your models here.
-
-
-
 class Role(models.Model):
 	"""
 	Model for an employee role
@@ -58,8 +54,4 @@ class Employee(models.Model):
 	def __str__(self):
 		return self.profile.user.first_name
 
-#class Customer(Person):
-	"""
-	Model to represent users
-	"""
 
