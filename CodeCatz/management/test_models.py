@@ -33,6 +33,48 @@ class EmployeeModelTest(TestCase):
         field_label = employee._meta.get_field('is_temp').verbose_name
         self.assertEquals(field_label, 'is temp')
 
+    def test_wage_hour_max_digits(self):
+        employee = Employee.objects.get(id=1)
+        max_digits = employee._meta.get_field('wage_hour').max_digits
+        self.assertEquals(max_digits, 4)
+
+    def test_hours_max_digits(self):
+        employee = Employee.objects.get(id=1)
+        max_digits = employee._meta.get_field('hours').max_digits
+        self.assertEquals(max_digits, 10)
+
+    def test_payment_max_digits(self):
+        employee = Employee.objects.get(id=1)
+        max_digits = employee._meta.get_field('payment').max_digits
+        self.assertEquals(max_digits, 10)
+
+    def test_wage_hour_decimal_places(self):
+        employee = Employee.objects.get(id=1)
+        decimal_places = employee._meta.get_field('wage_hour').decimal_places
+        self.assertEquals(decimal_places, 2)
+
+    def test_hours_decimal_places(self):
+        employee = Employee.objects.get(id=1)
+        decimal_places = employee._meta.get_field('hours').decimal_places
+        self.assertEquals(decimal_places, 2)
+
+    def test_payment_decimal_places(self):
+        employee = Employee.objects.get(id=1)
+        decimal_places = employee._meta.get_field('payment').decimal_places
+        self.assertEquals(decimal_places, 2)
+
+    def test_wage_hour_default(self):
+        employee = Employee.objects.get(id=1)
+        default = employee._meta.get_field('wage_hour').default
+        self.assertEquals(default, 15.30)
+
+    def test_is_temp_default(self):
+        employee = Employee.objects.get(id=1)
+        default = employee._meta.get_field('is_temp').default
+        self.assertEquals(default, False)
+
+    
+
 
 
 
