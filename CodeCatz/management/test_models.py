@@ -1,6 +1,7 @@
 from django.test import TestCase
 #from django.auth import User
 from .models import Employee
+from events.models import Event
 from register.models import *
 
 class EmployeeModelTest(TestCase):
@@ -16,7 +17,13 @@ class EmployeeModelTest(TestCase):
         test_profile = UserProfile.objects.get(id=test_user.id)
         test_profile.phone='222-222-2222'
         test_profile.save()
-        Employee.objects.create(profile=test_profile)
+        test_event = Event(user=test_user)
+        test_event.numGuests = 200
+        test_event.save()
+        test_employee = Employee.objects.create(profile=test_profile)
+        test_employee.event = (test_event,)
+        test_employee.save()
+
 
     def test_hours_label(self):
         employee = Employee.objects.get(id=1)
@@ -97,6 +104,11 @@ class EmployeeModelTest(TestCase):
         employee = Employee.objects.get(id=1)
         phone = employee.profile.phone
         self.assertEquals(phone, '222-222-2222')
+
+    def test_employee_event(self):
+        employee = Employee.objects.get(id=1)
+        event = employee.event.first().id
+        self.assertEquals(event,1)
 
 
 
