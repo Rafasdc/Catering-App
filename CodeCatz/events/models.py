@@ -9,32 +9,45 @@ import datetime
 import management
 import decimal
 from menu.models import Menu
+from django.utils.translation import ugettext_lazy as _
+
 
 def default_start_day():
     	return datetime.datetime.today() + datetime.timedelta(days=7)
 
+
+# For event
 class Event(models.Model):
 
 	EVENT_TYPE = (
 		('Wedding', 'Wedding'),
 		('Corporate', 'Corporate'),
-		('Private','Private'),
+		('Private', 'Private'),
 		('Social', 'Social'),
 		('Bar', 'Bar'),
 	)
 
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	event_type = models.CharField(max_length=50, choices=EVENT_TYPE, blank=True, default='Social', help_text='Event type.')
-	numGuests = models.IntegerField('Number of Guests', help_text="Enter the number of guests.")
-	date = models.DateField(default = default_start_day,help_text="Enter date of event.")
-	startTime = models.TimeField(default=datetime.time(16,00), help_text="Specify start time of event.")
-	endDate = models.DateField(default = default_start_day, help_text="If event goes into next day, please edit.")
-	endTime = models.TimeField(default = datetime.time(22, 00), help_text="Enter end time.")
+	event_type = models.CharField(
+	    max_length=50, choices=EVENT_TYPE, blank=True, default='Social', help_text='Event type.')
+	numGuests = models.IntegerField(
+	    'Number of Guests', help_text="Enter the number of guests.")
+	date = models.DateField(default=default_start_day,
+	                        help_text="Enter date of event.")
+	startTime = models.TimeField(default=datetime.time(
+	    16, 00), help_text="Specify start time of event.")
+	endDate = models.DateField(default=default_start_day,
+	                           help_text="If event goes into next day, please edit.")
+	endTime = models.TimeField(default=datetime.time(
+	    22, 00), help_text="Enter end time.")
 	location = models.CharField(max_length=255, help_text="Enter location")
-	menu = models.ForeignKey(Menu, null=True, blank=True, help_text="Choose a menu")
+	menu = models.ForeignKey(Menu, null=True, blank=True,
+	                         help_text="Choose a menu")
 	menu_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-	employee_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-	suggested_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+	employee_cost = models.DecimalField(
+	    max_digits=6, decimal_places=2, default=0.00)
+	suggested_price = models.DecimalField(
+	    max_digits=10, decimal_places=2, default=0.00)
 
 	EVENT_STATUS = (
 		('p', 'Pending'),
@@ -55,12 +68,12 @@ class Event(models.Model):
 
 	class Meta:
 		ordering = ["date"]
-		permissions = (("can_mark_approved", "Set event as approved."),) 
+		permissions = (("can_mark_approved", "Set event as approved."),)
 
 	@property
 	def getEndDate(self):
-		return self.endDate 
-		
+		return self.endDate
+
 	def calculate_menu_cost(self):
 		total_cost = 0
 		print(self.menu)
@@ -87,11 +100,62 @@ class Event(models.Model):
 
 	def calculate_suggested_price(self):
 		total_cost = self.menu_cost + self.employee_cost
-		#30% profit
+		# 30% profit
 		suggested_price = total_cost * decimal.Decimal(1.30)
-		self.suggested_price = round(suggested_price,2)
+		self.suggested_price = round(suggested_price, 2)
 		self.save()
 
+
+# Inventory for Event
+class Item(models.Model):
+	name = models.CharField("Name of Item", max_length=100)
+	description = models.CharField(verbose_name=_(u'Description'), max_length=64, null=True, blank=True)
+	part_number = models.CharField(verbose_name=_(u'Item number'), max_length=32, null=True, blank=True)
+	notes = models.TextField(verbose_name=_(u'Notes'), null=True, blank=True)
+
+	class Meta:
+		verbose_name = _(u'Item')
+		verbose_name_plural = _(u'Items')
+
+	def __str__(self):
+		return self.name
+
+
+class ItemInventory(models.Model):
+	item = models.ForeignKey(Item)
+	amountAvailable = models.IntegerField('Amount Available in Inventory')
+	amountUnavailable = models.IntegerField('Amount Used from Inventory')
+
+
+	def __str__(self):
+		return self.item.name
+
+	class Meta:
+		verbose_name = _(u'Item inventory')
+		verbose_name_plural = _(u'Item inventories')
+
+
+class EventQuantity(models.Model):
+	item = models.ForeignKey(Item)
+	amount = models.DecimalField('Amount necessary for event.', max_digits=10, decimal_places=2, default=0.00)
+	event = models.ForeignKey('EventInventoryInstance')
+
+	def __str__(self):
+		return "{:.2f} {:s}".format(self.amount, self.item.name)
+
+	class Meta:
+		verbose_name = _(u'Event Quantity')
+		verbose_name_plural = _(u'Event Quantities')
+
+
+class EventInventoryInstance(models.Model):
+	items = models.ManyToManyField(Item, through=EventQuantity)
+	event = models.ForeignKey(Event)
+
+	class Meta:
+		verbose_name = _(u'Event Inventory')
+		verbose_name_plural = _(u'Event Inventories')
+		
 
 
 
