@@ -9,8 +9,13 @@ class EmployeeModelTest(TestCase):
     def setUpTestData(cls):
         #Set up non-modified objects used by all test methods
         test_user = User()
+        test_user.first_name = 'Bob'
+        test_user.last_name = 'Test'
+        test_user.email = 'bob@test.com'
         test_user.save()
         test_profile = UserProfile.objects.get(id=test_user.id)
+        test_profile.phone='222-222-2222'
+        test_profile.save()
         Employee.objects.create(profile=test_profile)
 
     def test_hours_label(self):
@@ -73,7 +78,25 @@ class EmployeeModelTest(TestCase):
         default = employee._meta.get_field('is_temp').default
         self.assertEquals(default, False)
 
-    
+    def test_employee_first_name(self):
+        employee = Employee.objects.get(id=1)
+        first_name = employee.profile.user.first_name
+        self.assertEquals(first_name, 'Bob')
+
+    def test_employee_last_name(self):
+        employee = Employee.objects.get(id=1)
+        last_name = employee.profile.user.last_name
+        self.assertEquals(last_name, 'Test')
+
+    def test_employee_email(self):
+        employee = Employee.objects.get(id=1)
+        email = employee.profile.user.email
+        self.assertEquals(email, 'bob@test.com')
+
+    def test_employee_phone(self):
+        employee = Employee.objects.get(id=1)
+        phone = employee.profile.phone
+        self.assertEquals(phone, '222-222-2222')
 
 
 
