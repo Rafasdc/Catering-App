@@ -7,8 +7,8 @@ import datetime
 
 @receiver(signals.post_save, sender=Event)
 def event_post_save(sender, instance, signal, *args, **kwargs):
-	
-	if instance.status == "p":    
+
+	if instance.status == "p":
 		#send to manager
 		send_mail('Event {:d} is pending.'.format(instance.id), "There is a pending event from {:s} {:s}. Please confirm the details on the management tab.".format(instance.user.first_name, instance.user.last_name), "automated@code.catz.ca", [settings.EMAIL_HOST_USER,], fail_silently=False)
 	if instance.status == "a":

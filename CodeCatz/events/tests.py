@@ -64,3 +64,7 @@ class EventTest(TestCase):
 		expected_object_name = '%s, %s' % (event.user.username, str(event.numGuests) + ' guests')
 		self.assertEquals(expected_object_name, str(event))
 
+	def test_get_absolute_url(self):
+		event=Event.objects.get(id=1)
+		self.assertEquals(event.get_absolute_url(),'/events/')
+

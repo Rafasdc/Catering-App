@@ -21,7 +21,7 @@ class SchedulerConfig(AppConfig):
             startTime = event.startTime
             compareStart = datetime.datetime.combine(date, startTime)
             now = datetime.datetime.now()
-        
+
             if(compareEnd < now):
                 if event.status != 'c':
                     user = event.user
