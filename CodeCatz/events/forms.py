@@ -22,9 +22,9 @@ class CreateEventForm(forms.ModelForm):
                 self.add_error('numGuests', ValidationError(_("Guests can not be zero or less. ")))
         else:
             self.add_error('numGuests', ValidationError(_("Guests can not be zero or blank.")))
-            
+
         if date and endDate:
-            #Check date is not in past. 
+            #Check date is not in past.
             if date < (datetime.date.today() + datetime.timedelta(days=7)):
                 self.add_error('date', ValidationError(_('Invalid date - cannot create event sooner than 1 week in advance.')))
 
