@@ -44,7 +44,7 @@ class LunchAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated():
             return Recipe.objects.none()
 
-        qs = Recipe.objects.filter(meal_type='lun')
+        qs = Recipe.objects.filter(meal_type='lunch')
 
         if self.q:
             qs = qs.filter(title__icontains=self.q)
