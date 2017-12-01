@@ -10,47 +10,52 @@ Event
 
 {% block content %}
 {% if object.endDate < time.date %}
-<p>Event is past</p>
-<p><a href="{% url 'manager-event-delete' object.pk %}">Delete Event</a></p>
+  <p>Event is past</p>
+  <p><a href="{% url 'manager-event-delete' object.pk %}">Delete Event</a></p>
 {% else %}
-<h1>Manager Event Form</h1>
-{% if event %}
-<table id="events">
-    <tr>
-      <th>Event Type</th>
-      <th>Number of Guests</th>
-      <th>Day</th>
-      <th>Start Time</th>
-      <th>End Date</th>
-      <th>End Time</th>
-      <th>Location</th>
-      <th>Menu</th>
-      <th>Status</th>
-    </tr>
-    <tr>
-      <td>{{ event.event_type }}</td>
-      <td>{{ event.numGuests }}</td>
-      <td>{{ event.date }}</td>
-      <td>{{ event.startTime }}</td>
-      <td> {{ event.endDate }}</td>
-      <td>{{ event.endTime }}</td>
-      <td>{{ event.location }}</td>
-      <td><a href="{{ event.menu.get_absolute_url }}">{{event.menu}}</a></td>
-      {% if event.status == "p" %}
-        <td> <warning>Pending</warning></td>
-      {% elif event.status == "a" %}
-        <td><success>Approved</success></td>
-      {% elif event.status == "n"%}
-        <td><info>Notified.</info></td>
-      {% elif event.status == "w"%}
-        <td><info>Preparing...</info></td>
-      {% elif event.status == "c"%} 
-        <td><success>Complete!</success></td>
-      {% endif %}
-    </tr>
-</table>
-{% endif %}
-<form method="post" class="form-view">
+  <h1>Manager Event Form</h1>
+  {% if event %}
+    {% if event.status == "w" %}
+      <center><p>Edit inventory for this event</p></center>
+    {% endif %}
+  {% endif %}
+  {% if event %}
+    <table id="events">
+        <tr>
+          <th>Event Type</th>
+          <th>Number of Guests</th>
+          <th>Day</th>
+          <th>Start Time</th>
+          <th>End Date</th>
+          <th>End Time</th>
+          <th>Location</th>
+          <th>Menu</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td>{{ event.event_type }}</td>
+          <td>{{ event.numGuests }}</td>
+          <td>{{ event.date }}</td>
+          <td>{{ event.startTime }}</td>
+          <td> {{ event.endDate }}</td>
+          <td>{{ event.endTime }}</td>
+          <td>{{ event.location }}</td>
+          <td><a href="{{ event.menu.get_absolute_url }}">{{event.menu}}</a></td>
+          {% if event.status == "p" %}
+            <td> <warning>Pending</warning></td>
+          {% elif event.status == "a" %}
+            <td><success>Approved</success></td>
+          {% elif event.status == "n"%}
+            <td><info>Notified.</info></td>
+          {% elif event.status == "w"%}
+            <td><info>Preparing...</info></td>
+          {% elif event.status == "c"%} 
+            <td><success>Complete!</success></td>
+          {% endif %}
+        </tr>
+    </table>
+  {% endif %}
+  <form method="post" class="form-view">
     {% csrf_token %}
     <ul>
       {% for field in form %}
@@ -76,7 +81,8 @@ Event
         </div></li>
     </ul>
   </form>
-  {% endif %}
+{% endif %}
+
 {% endblock %}
 
 {% block footer %}

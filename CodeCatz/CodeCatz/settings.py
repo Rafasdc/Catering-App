@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'register.apps.RegisterConfig',
     'events.apps.EventsConfig',
     'menu.apps.MenuConfig',
+    'inventory.apps.InventoryConfig',
 ]
 
 MIDDLEWARE = [

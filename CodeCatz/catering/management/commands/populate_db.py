@@ -21,6 +21,7 @@ class Command(BaseCommand):
         self._create_authors()
 """
 from menu.models import Category, Ingredient
+from inventory.models import Item, ItemInventory
 
 
 class Command(BaseCommand):
@@ -109,17 +110,49 @@ class Command(BaseCommand):
         """
         Add your own recipes and quantities on /admin/, easier. Populate ingredients here.
         """
+
+    def _create_item_database(self):
+        knife = self.create_item('Knife')
+        spoon = self.create_item('Spoon')
+        fork = self.create_item('Fork')
+        bbowl = self.create_item('Big Bowl')
+        dinner_plate = self.create_item('Dinner Plate')
+        desert_plate = self.create_item('Desert Plate')
+
+        self.create_item_inventory(knife, 1000, 0)
+        self.create_item_inventory(spoon, 1000, 0)
+        self.create_item_inventory(fork, 1000, 0)
+        self.create_item_inventory(bbowl, 1000, 0)
+        self.create_item_inventory(dinner_plate, 1000, 0)
+        self.create_item_inventory(desert_plate, 1000, 0)
+
+
+    
+    def create_item_inventory(self, item, avail, unavail):
+        temp, created = ItemInventory.objects.get_or_create(item=item, amountAvailable=avail, amountUnavailable=unavail)
+        temp.save()
+        return temp
+        
+        
     def create_category(self, name):
         temp, created = Category.objects.get_or_create(title=name)
         temp.save()
+        return temp
     
     def create_ingredient(self, name, category):
         temp, created = Ingredient.objects.get_or_create(name=name, category=category)
         temp.save()
+        return temp
+
+    def create_item(self, name):
+        temp, created = Item.objects.get_or_create(name=name)
+        temp.save()
+        return temp
 
 
     def handle(self, *args, **options):
         self._create_food_database()
+        self._create_item_database()
 
     from django.contrib.auth.models import Group, Permission
     from django.contrib.contenttypes.models import ContentType
@@ -142,9 +175,12 @@ class Command(BaseCommand):
 
     from django.contrib.auth.models import User
     from register.models import UserProfile
-    manager = User.objects.create_user(username='manager',
-                                 email='manager@catz.com',
-                                 password='manager123', first_name='First', last_name='Last')
+    
+    manager, created = User.objects.get_or_create(username=u'manager',
+                                 email=u'manager@catz.com', first_name=u'First', last_name=u'Last')
+    if created:
+        manager.set_password('manager123')
+        manager.save()
     manager_profile = UserProfile.objects.get(id=manager.id)
     manager_profile.phone = '+999999999'
     manager_profile.address = 'Managers Address'
