@@ -12,7 +12,7 @@ when server is running navigate to http://localhost:8000/account/login/ test use
 # Adding static files
 Best way to add static files is via the /static/ folder. If you want it for a specific app, create it as e.g./static/app/css or /static/app/js. This keeps all static files in the same spot. General static files are in /static/css or /static/js.
 
-#To Run
+# To Run
 You need to have python 3+, and install with pip:
 django
 django_extensions
