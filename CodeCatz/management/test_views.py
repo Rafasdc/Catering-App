@@ -124,6 +124,10 @@ class EmployeeView(TestCase):
         resp = self.client.get('/management/employee/1', follow=True)
         self.assertEqual(resp.status_code, 200)
 
+    def test_view_url_exists_at_desired_location_logged_in(self):
+        resp = self.client.get('/management/employee/1', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
     def test_view_url_accesible_by_name_fail_no_employee(self):
         resp = self.client.get(reverse('management:employee', kwargs={'employee_id' : 1}), follow=True)
         self.assertEqual(resp.status_code, 200)
@@ -143,3 +147,199 @@ class EmployeeView(TestCase):
         resp = self.client.get(reverse('management:employee', kwargs={'employee_id' : 1}), follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp,'management/employee_view.html')
+
+class AssignEmployeeView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user = User()
+        test_user.first_name = 'Bob'
+        test_user.last_name = 'Test'
+        test_user.username = 'bob'
+        test_user.set_password('12345')
+        test_user.email = 'bob@test.com'
+        test_user.save()
+        employees, created = Group.objects.get_or_create(name='managers')
+        g = Group.objects.get(name='managers') 
+        g.user_set.add(test_user)
+        test_profile = UserProfile.objects.get(id=test_user.id)
+        test_profile.phone='222-222-2222'
+        test_profile.save()
+        test_event = Event(user=test_user)
+        test_event.numGuests = 200
+        test_event.save()
+        test_employee = Employee.objects.create(profile=test_profile)
+        test_employee.event = (test_event,)
+        test_employee.save()
+
+    def test_view_url_exists_at_desired_location_not_logged_in(self):
+        resp = self.client.get('/management/employee/1/events', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_exists_at_desired_location_logged_in(self):
+        resp = self.client.get('/management/employee/1/events', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accesible_by_name_fail_no_manager(self):
+        resp = self.client.get(reverse('management:employee_assign', kwargs={'employee_id' : 1}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_uses_correct_template_fail_no_manager(self):
+        resp = self.client.get(reverse('management:employee_assign', kwargs={'employee_id' : 1}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp,'catering/index.html')
+
+    def test_view_url_accesible_by_name_success_is_manager(self):
+        login = self.client.login(username='bob', password='12345')
+        resp = self.client.get(reverse('management:employee_assign', kwargs={'employee_id' : 1}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_uses_correct_template_success_is_manager(self):
+        login = self.client.login(username='bob', password='12345')
+        resp = self.client.get(reverse('management:employee_assign', kwargs={'employee_id' : 1}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp,'management/employee_assign.html')
+
+class CreateEmployeeView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user = User()
+        test_user.first_name = 'Bob'
+        test_user.last_name = 'Test'
+        test_user.username = 'bob'
+        test_user.set_password('12345')
+        test_user.email = 'bob@test.com'
+        test_user.save()
+        employees, created = Group.objects.get_or_create(name='managers')
+        g = Group.objects.get(name='managers') 
+        g.user_set.add(test_user)
+        test_profile = UserProfile.objects.get(id=test_user.id)
+        test_profile.phone='222-222-2222'
+        test_profile.save()
+        test_event = Event(user=test_user)
+        test_event.numGuests = 200
+        test_event.save()
+        test_employee = Employee.objects.create(profile=test_profile)
+        test_employee.event = (test_event,)
+        test_employee.save()
+
+    def test_view_url_exists_at_desired_location_not_logged_in(self):
+        resp = self.client.get('/management/employee/create', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_exists_at_desired_location_logged_in(self):
+        resp = self.client.get('/management/employee/create', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accesible_by_name_fail_no_manager(self):
+        resp = self.client.get(reverse('management:create_employee'), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_uses_correct_template_fail_no_manager(self):
+        resp = self.client.get(reverse('management:create_employee'), follow=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp,'catering/index.html')
+
+    def test_view_url_accesible_by_name_success_is_manager(self):
+        login = self.client.login(username='bob', password='12345')
+        resp = self.client.get(reverse('management:create_employee'), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_uses_correct_template_success_is_manager(self):
+        login = self.client.login(username='bob', password='12345')
+        resp = self.client.get(reverse('management:create_employee'), follow=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp,'register/signup.html')
+
+class EditWageView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user = User()
+        test_user.first_name = 'Bob'
+        test_user.last_name = 'Test'
+        test_user.username = 'bob'
+        test_user.set_password('12345')
+        test_user.email = 'bob@test.com'
+        test_user.save()
+        employees, created = Group.objects.get_or_create(name='managers')
+        g = Group.objects.get(name='managers') 
+        g.user_set.add(test_user)
+        test_profile = UserProfile.objects.get(id=test_user.id)
+        test_profile.phone='222-222-2222'
+        test_profile.save()
+        test_event = Event(user=test_user)
+        test_event.numGuests = 200
+        test_event.save()
+        test_employee = Employee.objects.create(profile=test_profile)
+        test_employee.event = (test_event,)
+        test_employee.save()
+
+    def test_view_url_exists_at_desired_location_not_logged_in(self):
+        resp = self.client.get('/management/employee/wage/1', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_exists_at_desired_location_logged_in(self):
+        resp = self.client.get('/management/employee/wage/1', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accesible_by_name_fail_no_manager(self):
+        resp = self.client.get(reverse('management:edit_wage', kwargs={'employee_id' : 1}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_uses_correct_template_fail_no_manager(self):
+        resp = self.client.get(reverse('management:edit_wage', kwargs={'employee_id' : 1}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp,'catering/index.html')
+
+    def test_view_url_accesible_by_name_success_is_manager(self):
+        login = self.client.login(username='bob', password='12345')
+        resp = self.client.get(reverse('management:edit_wage', kwargs={'employee_id' : 1}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_uses_correct_template_success_is_manager(self):
+        login = self.client.login(username='bob', password='12345')
+        resp = self.client.get(reverse('management:edit_wage', kwargs={'employee_id' : 1}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp,'management/wage_edit.html')
+
+class PaymentEventView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user = User()
+        test_user.first_name = 'Bob'
+        test_user.last_name = 'Test'
+        test_user.username = 'bob'
+        test_user.set_password('12345')
+        test_user.email = 'bob@test.com'
+        test_user.save()
+        employees, created = Group.objects.get_or_create(name='managers')
+        g = Group.objects.get(name='managers') 
+        g.user_set.add(test_user)
+        test_profile = UserProfile.objects.get(id=test_user.id)
+        test_profile.phone='222-222-2222'
+        test_profile.save()
+        test_event = Event(user=test_user)
+        test_event.numGuests = 200
+        test_event.save()
+        test_employee = Employee.objects.create(profile=test_profile)
+        test_employee.event = (test_event,)
+        test_employee.save()
+
+    def test_view_url_exists_at_desired_location_not_logged_in(self):
+        resp = self.client.get('/management/events/payment', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_exists_at_desired_location_logged_in(self):
+        resp = self.client.get('/management/events/payment', follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accesible_by_name_fail_no_manager(self):
+        resp = self.client.get(reverse('management:event_price'), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accesible_by_name_success_is_manager(self):
+        login = self.client.login(username='bob', password='12345')
+        resp = self.client.get(reverse('management:event_price'), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+
+
