@@ -336,10 +336,5 @@ class PaymentEventView(TestCase):
         resp = self.client.get(reverse('management:event_price'), follow=True)
         self.assertEqual(resp.status_code, 200)
 
-    def test_view_url_accesible_by_name_success_is_manager(self):
-        login = self.client.login(username='bob', password='12345')
-        resp = self.client.get(reverse('management:event_price'), follow=True)
-        self.assertEqual(resp.status_code, 200)
-
 
 
