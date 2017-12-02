@@ -14,25 +14,26 @@ Best way to add static files is via the /static/ folder. If you want it for a sp
 
 # To Run
 You need to have python 3+, and install with pip:
-django
-django_extensions
-django-celery
-django-autocomplete-light
-requests
+* django
+* django_extensions
+* django-celery
+* django-autocomplete-light
+* requests
 
 After installing navigate to CodeCatz main folder and run
-python manage.py runserver
+
+* python manage.py runserver
 
 This should start the server at localhost:8000
 
 Some users that can be used are:
-User/Password (both are case sensitive)
-Manager: manager/manager123
-Employee: Waiter1/employee123
-Regular User: JoeUser/user1234
+* User/Password (both are case sensitive)
+* Manager: manager/manager123
+* Employee: Waiter1/employee123
+* Regular User: JoeUser/user1234
 
 To access the admin go to localhost:8000/admin/
 You need a super user to access the admin, you can create one with
-python manage.py createsuperuser
+* python manage.py createsuperuser
 
 Note: that running the server inside a virtualenv, may produce SSL error when trying to connect to the external API to get temp employees. 
